@@ -114,8 +114,7 @@ export const updateProfile = async (req,res) => {
             return res.status(500).json({ message : "Failed to upload profile picture" });
         }
 
-        //const user = await User.findById(req.user._id);
-        const user = await User.findById("68459d6c38f16d4173106e6c");
+        const user = await User.findById(req.user._id);
         user.profilePic = cloud.secure_url;
         await user.save();
 
