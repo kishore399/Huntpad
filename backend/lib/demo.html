@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Image</title>
+</head>
+<body>
+
+  <button id="uploadBtn">Select Picture</button>
+  <input type="file" id="fileInput" accept="image/*" style="display:none" />
+  <div id="response" style="margin-top:20px;"></div>
+
+  <script>
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+    const responseDiv = document.getElementById('response');
+
+    uploadBtn.addEventListener('click', () => {
+      fileInput.click();
+      responseDiv.textContent = ''; // clear previous response
+    });
+
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch('http://localhost:5000/profile', {
+          method: 'PUT',
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          responseDiv.textContent = 'Upload successful: ' + JSON.stringify(data);
+        } else {
+          responseDiv.textContent = 'Upload failed: ' + JSON.stringify(data);
+        }
+      } catch (err) {
+        responseDiv.textContent = 'Upload error: ' + err.message;
+      }
+    });
+  </script>
+
+</body>
+</html>

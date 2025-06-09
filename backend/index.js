@@ -2,14 +2,20 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
-import authRouter from "./routes/authRoute.js";;
+import authRouter from "./routes/authroute.js";;
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
-app.use(express.json());
+app.use(express.json({
+    limit : "10mb"
+}));
+
+app.use(cors());
+
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
