@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import authRouter from "./routes/authroute.js";;
+import authRouter from "./routes/authroute.js";
+import notesRouter from "./routes/note.router.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
+app.use("/api/notes", notesRouter);
 
 const startServer = async () => {
     try {

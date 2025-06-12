@@ -13,7 +13,7 @@ export const validateUser = async (req,res,next) => {
             return res.status(401).json({ message : "Unauthorized Access"})
         }
 
-        const user = await User.findById(cookie.id).select("-password -__v");
+        const user = await User.findById(cookie.userid).select("-password -__v");
         if (!user) {
             return res.status(404).json({ message : "User not found"})
         }
