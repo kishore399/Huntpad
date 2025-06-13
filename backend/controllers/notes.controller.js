@@ -4,7 +4,7 @@ export const getAllNotes = async (req,res) => {
     try{
         const userId = req.user._id;
 
-        const notes = await Note.find({ userId });
+        const notes = await Note.find({ userId }).sort({ isPinned: -1, createdAt: -1});
         if (!notes) {
             return res.status(404).json({ message: "No notes found" });
         }
@@ -87,5 +87,21 @@ export const deleteNote = async (req,res) => {
 }
 
 export const pinNote = async (req,res) => {
-    res.status(501).json({ message: "Under Construction" });
+    try {
+        const noteId = req.params.id;
+
+        const note = await Note.findById(noteId);
+        if (!note) {
+            return res.status(404).json({ message : "Note not found"})
+        }
+
+        note.isPinned = !note.isPinned;
+
+        await note.save();
+        return res.status(200).json(note);
+
+    } catch (err) {
+        console.log("Error in pinNote controller", err);
+        return res.status(500).json({ message : "Internal Server Error" });
+    }
 }
