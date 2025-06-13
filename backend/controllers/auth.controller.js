@@ -109,12 +109,26 @@ export const updateProfile = async (req,res) => {
             return res.status(400).json({ message : "No profile picture provided" });
         }
 
+        // Upload Profile pic
         const cloud = await cloudinary.uploader.upload(profilePic);
         if (!cloud) {
             return res.status(500).json({ message : "Failed to upload profile picture" });
         }
 
         const user = await User.findById(req.user._id);
+        //const user = await User.findById("68459d6c38f16d4173106e6c");
+        if (!user) {
+            return res.status(404).json({ message : "User not found"})
+        }
+
+        if (user.profilePic === profilePic) {
+            return res.status(200).json(user);
+        }
+        // Delete the old one
+        if (user.profilePic) {
+            const isdeleted = await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
+            console.log("Old profile pic deleted:", isdeleted);
+        }
         user.profilePic = cloud.secure_url;
         await user.save();
 

@@ -4,7 +4,7 @@ export const getAllNotes = async (req,res) => {
     try{
         const userId = req.user._id;
 
-        const notes = await Note.find({ userId }).sort({ isPinned: -1, createdAt: -1});
+        const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1});
         if (!notes) {
             return res.status(404).json({ message: "No notes found" });
         }

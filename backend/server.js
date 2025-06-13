@@ -4,10 +4,11 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
+dotenv.config();
+
 import authRouter from "./routes/authroute.js";
 import notesRouter from "./routes/note.router.js";
 
-dotenv.config();
 const app = express();
 const port = process.env.PORT;
 
