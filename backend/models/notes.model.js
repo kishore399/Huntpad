@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const noteSchema = new mongoose.Schema({
-    userid : {
+    userId : {
         type : String,
         required : true
     },
@@ -12,6 +12,10 @@ const noteSchema = new mongoose.Schema({
     content : {
         type : String,
         required : true
+    },
+    isPinned : {
+        type : Boolean,
+        default : false
     }
 }, { timestamps : true });
 

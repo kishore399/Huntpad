@@ -1,15 +1,17 @@
 import express from 'express';
-import { createNote, deleteNote, getAllNotes, updateNote } from '../controllers/notes.controller.js';
+import { createNote, deleteNote, getAllNotes, updateNote, pinNote } from '../controllers/notes.controller.js';
 import { validateUser } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
-router.get("/all", validateUser, getAllNotes);
+router.get("/", validateUser, getAllNotes);
 
-router.post("/create", validateUser, createNote);
+router.post("/", validateUser, createNote);
 
-router.put("/update/:id", validateUser, updateNote);
+router.put("/:id", validateUser, updateNote);
 
-router.delete("/delete/:id", validateUser, deleteNote);
+router.delete("/:id", validateUser, deleteNote);
+
+router.put("/pin/:id", validateUser, pinNote);
 
 export default router;
