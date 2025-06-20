@@ -1,8 +1,10 @@
-import React from 'react'
+import Navbar from "../components/Navbar";
 
 const HomePage = () => {
   return (
-    <div>homePage</div>
+    <div className="min-h-screen">
+      <Navbar />
+    </div>
   )
 }
 
