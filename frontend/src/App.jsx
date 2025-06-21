@@ -1,19 +1,16 @@
-import { Route, Routes } from "react-router";
-import toast from "react-hot-toast";
-
-import HomePage from "./pages/HomePage";
-import CreateNotePage from "./pages/CreateNotePage";
-import NoteDetailPage from "./pages/NoteDetailPage";
-
+import { Routes, Route } from "react-router";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+ 
 const App = () => {
   return (
-    <div dataitheme="luxury">
+    <div className="bg-gradient-to-br from-purple-900 to-slate-900 min-w-screen min-h-screen flex justify-center items-center">
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/create" element={<CreateNotePage />} />
-      <Route path="/view/:id" element={<NoteDetailPage />} />
+      <Route path="/" element={ <Home />} />
+      <Route path="/login" element={ <Login />} />
+      <Route path="/signup" element={ <Signup />} />
     </Routes>
-
     </div>
   )
 }
