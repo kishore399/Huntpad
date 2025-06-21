@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import { User, Mail, Lock } from "lucide-react";
+import PasswordStrength from "../components/PasswordStrength";
 
 const Signup = () => {
 
@@ -15,8 +16,8 @@ const Signup = () => {
   }
 
   return (
-    <div className="max-w-md w-full bg-white overflow-hidden rounded-lg flex flex-col items-center justify-center p-6">
-        <h2 className="text-2xl font-bold text-violet-500">
+    <div className="max-w-md w-full bg-white overflow-hidden rounded-lg flex flex-col justify-center p-6">
+        <h2 className="text-2xl font-bold text-violet-500 text-center">
             Create Account
         </h2>
         <form onSubmit={handleSignup} className="w-full flex flex-col gap-2 mt-4">
@@ -49,6 +50,7 @@ const Signup = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
         </form>
+        <PasswordStrength password={password}/>
     </div>
   )
 }
