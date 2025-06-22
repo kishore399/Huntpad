@@ -17,7 +17,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="max-w-md w-full bg-white overflow-hidden rounded-lg flex flex-col justify-center m-4 shadow-lg shadow-violet-500">
+    <div className="max-w-md w-full bg-white overflow-hidden rounded-lg flex flex-col justify-center m-4">
         <h2 className="text-2xl font-bold text-violet-500 text-center mt-8">
             Create Account
         </h2>
@@ -50,8 +50,8 @@ const Signup = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-        <PasswordStrengthMeter password={password}/>
-        <button type="submit" className="bg-violet-500 py-2 rounded-full font-bold text-white mt-4" >Sign Up</button>
+          <PasswordStrengthMeter password={password}/>
+          <button type="submit" className="bg-violet-500 py-2 rounded-full font-bold text-white mt-4" >Sign Up</button>
         </form>
         <div className="w-full p-4 bg-slate-400 mt-4 flex justify-center items-center gap-2">
           <span className="text-sm text-gray-900">Already have an account?</span>
