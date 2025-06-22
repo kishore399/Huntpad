@@ -5,7 +5,7 @@ import Signup from "./pages/Signup";
  
 const App = () => {
   return (
-    <div className="bg-gradient-to-br from-purple-900 to-slate-900 min-w-screen min-h-screen flex justify-center items-center">
+    <div className="bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center w-screen h-screen flex justify-center items-center">
     <Routes>
       <Route path="/" element={ <Home />} />
       <Route path="/login" element={ <Login />} />
