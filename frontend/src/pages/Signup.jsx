@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Input from "../components/Input";
 import { User, Mail, Lock } from "lucide-react";
-import PasswordStrength from "../components/PasswordStrength";
+import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 
 const Signup = () => {
 
@@ -50,7 +50,7 @@ const Signup = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
         </form>
-        <PasswordStrength password={password}/>
+        <PasswordStrengthMeter password={password}/>
     </div>
   )
 }
