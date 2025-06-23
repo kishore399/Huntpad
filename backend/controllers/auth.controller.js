@@ -44,11 +44,15 @@ export const signup = async (req,res) => {
         if (newUser) {
             generateToken( newUser._id, newUser.email, res);
             await newUser.save();
-            
         }else {
             return res.status(400).json({ message : "Invalid User Credentials" });
         }
-        return res.status(201).json({ message : "OTP sent seccessfully" })
+        const userInfo = {
+            name : name,
+            email : email
+        }
+
+        return res.status(201).json({ userInfo, message : "OTP sent seccessfully" })
 
     } catch (err) {
         console.log("error in signup controller",err);
