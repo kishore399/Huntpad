@@ -5,6 +5,7 @@ import SubmitButton from "../components/SubmitButton";
 const EmailVerification = () => {
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const inputRef = useRef([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,13 +14,31 @@ const EmailVerification = () => {
 
   const handleChange = (index, value) => {
     const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-    console.log("OTP changed:", newOtp);
+
+    if (value.length > 1) {
+      const pastedOtp = value.slice(0,6).split("")
+      for (let i=0; i<6; i++) {
+        newOtp[i] = pastedOtp[i] || "";
+      }
+      const lastIndex = newOtp.reduce((acc,curr) => acc + (curr? 1 : 0), 0 );
+      const focusIndex = (lastIndex < 6)? lastIndex : 5;
+      setOtp(newOtp);
+      inputRef.current[focusIndex].focus();
+
+    } else {
+      newOtp[index] = value;
+      setOtp(newOtp);
+      console.log("OTP changed:", newOtp);
+      if (index !== 5 && value) {
+        inputRef.current[index+1].focus();
+      }
+    }
   }
 
   const handleKeyDown = (index,e) => {
-    console.log("key Pressed")
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRef.current[index-1].focus();
+    }
   }
 
   return (
@@ -33,10 +52,12 @@ const EmailVerification = () => {
             {otp.map((num,index) => (
               <input 
                 key={index}
+                autoComplete="one-time-code"
                 type="text"
                 placeholder="0"
                 inputMode="numeric"
                 maxLength="6"
+                ref={(el) => (inputRef.current[index] = el)}
                 value={num}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e) }
