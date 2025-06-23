@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import { User, Mail, Lock } from "lucide-react";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 import { Link } from "react-router";
+import SubmitButton from "../components/SubmitButton";
 
 const Signup = () => {
 
@@ -17,8 +18,8 @@ const Signup = () => {
   }
 
   return (
-    <div className="max-w-md w-full bg-white overflow-hidden rounded-lg flex flex-col justify-center m-4">
-        <h2 className="text-2xl font-bold text-violet-500 text-center mt-8">
+    <div className="auth-card">
+        <h2 className="auth-title">
             Create Account
         </h2>
         <form onSubmit={handleSignup} className="w-full flex flex-col gap-2 mt-4 px-8">
@@ -51,9 +52,11 @@ const Signup = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           <PasswordStrengthMeter password={password}/>
-          <button type="submit" className="bg-violet-500 py-2 rounded-full font-bold text-white mt-4" >Sign Up</button>
+          <SubmitButton 
+            text="Sign Up"
+          />
         </form>
-        <div className="w-full p-4 bg-slate-400 mt-4 flex justify-center items-center gap-2">
+        <div className="w-full p-4 bg-slate-400 mt-2 flex justify-center items-center gap-2">
           <span className="text-sm text-gray-900">Already have an account?</span>
           <Link to="/login" className="text-sm hover:underline hover:text-blue-600">Login</Link>
         </div>

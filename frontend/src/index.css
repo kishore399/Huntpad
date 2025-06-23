@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@layer components {
+    .auth-title {
+        @apply text-2xl font-bold text-violet-500 text-center mt-8;
+    }
+}
+
+@layer components {
+    .auth-card{
+        @apply max-w-md w-full bg-white overflow-hidden rounded-lg flex flex-col justify-center m-4;
+    }
+}
