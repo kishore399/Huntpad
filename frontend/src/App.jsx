@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router";
+import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -15,6 +16,7 @@ const App = () => {
       <Route path="/verify-email" element={ <EmailVerification />} />
       <Route path="/forgot-password" element={ <ForgotPassword />} />
     </Routes>
+    <Toaster />
     </div>
   )
 }

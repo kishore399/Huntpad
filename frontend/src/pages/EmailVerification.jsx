@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import SubmitButton from "../components/SubmitButton";
 import { Loader } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const EmailVerification = () => {
 
@@ -25,6 +26,7 @@ const EmailVerification = () => {
       try {
         await verifyEmail(code);
         navigate("/");
+        toast.success("Email verified successfully");
       } catch (err) {
         console.log(err);
       }

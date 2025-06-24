@@ -5,6 +5,7 @@ import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 import { Link, useNavigate  } from "react-router";
 import SubmitButton from "../components/SubmitButton";
 import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const Signup = () => {
 
@@ -28,6 +29,7 @@ const Signup = () => {
       try{
         await signup(email, password, fullName);
         navigate("/verify-email");
+        toast.success("OTP sent successfully")
       } catch (err) {
         console.log(err);
       }
