@@ -6,8 +6,8 @@ import crypto from "crypto";
 
 
 export const signup = async (req,res) => {
-    const { name, email, password} = req.body;
-    
+    const { fullName:name, email, password} = req.body;
+
     if (!name || !email || !password) {
         return res.status(400).json({message : "All fields are required"});
     }
@@ -157,7 +157,8 @@ export const checkAuth = (req,res) => {
 }
 
 export const verifyEmail = async (req,res) => {
-    const { email, otp } = req.body;
+    const { email, code } = req.body;
+    const otp = Number(code);
     try {
         const user = await User.findOne({ email });
         if (!user) {
