@@ -7,7 +7,6 @@ import crypto from "crypto";
 
 export const signup = async (req,res) => {
     const { fullName:name, email, password} = req.body;
-    console.log("signup")
     if (!name || !email || !password) {
         return res.status(400).json({message : "All fields are required"});
     }
@@ -29,7 +28,6 @@ export const signup = async (req,res) => {
 
         const otp = crypto.randomInt(100000, 999999);  
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log(1)
         // send OTP to user's email (this part is not implemented in this code snippet)
         console.log(`OTP for ${email} is ${otp}`); 
 
@@ -64,7 +62,6 @@ export const signup = async (req,res) => {
 
 export const login = async (req,res) => {
     const { email, password} = req.body;
-    console.log(email,password);
     if (!email || !password) {
         return res.status(400).json({ message : "All fields are required"})
     }
@@ -78,7 +75,6 @@ export const login = async (req,res) => {
         if (!user) {
             return res.status(404).json({ message : "User not found"})
         }
-        console.log(user.password)
         const isValid = await bcrypt.compare(password, user.password)
         if (!isValid) {
             return res.status(400).json({ message : "Invalid Credentials"})
@@ -181,7 +177,6 @@ export const checkAuth = (req,res) => {
 export const verifyEmail = async (req,res) => {
     const { email, code } = req.body;
     const otp = Number(code);
-    console.log(email)
     try {
         const user = await User.findOne({ email });
         if (!user) {
