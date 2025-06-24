@@ -7,7 +7,7 @@ import crypto from "crypto";
 
 export const signup = async (req,res) => {
     const { fullName:name, email, password} = req.body;
-
+    console.log("signup")
     if (!name || !email || !password) {
         return res.status(400).json({message : "All fields are required"});
     }
@@ -29,7 +29,7 @@ export const signup = async (req,res) => {
 
         const otp = crypto.randomInt(100000, 999999);  
         const hashedPassword = await bcrypt.hash(password, 10);
-
+        console.log(1)
         // send OTP to user's email (this part is not implemented in this code snippet)
         console.log(`OTP for ${email} is ${otp}`); 
 
@@ -42,13 +42,18 @@ export const signup = async (req,res) => {
         })
 
         if (newUser) {
-            generateToken( newUser._id, newUser.email, res);
             await newUser.save();
         }else {
             return res.status(400).json({ message : "Invalid User Credentials" });
         }
-        const {password, ...userInfo} = user;
-
+        const userInfo = {
+            _id: newUser._id,
+            email: newUser.email,
+            fullName: newUser.name,
+            profilePic: newUser.profilePic,
+            isVerified: newUser.isVerified,
+            createdAt: newUser.createdAt,
+        }
         return res.status(201).json({ userInfo, message : "OTP sent seccessfully" })
 
     } catch (err) {
@@ -59,7 +64,7 @@ export const signup = async (req,res) => {
 
 export const login = async (req,res) => {
     const { email, password} = req.body;
-
+    console.log(email,password);
     if (!email || !password) {
         return res.status(400).json({ message : "All fields are required"})
     }
@@ -73,12 +78,21 @@ export const login = async (req,res) => {
         if (!user) {
             return res.status(404).json({ message : "User not found"})
         }
+        console.log(user.password)
         const isValid = await bcrypt.compare(password, user.password)
         if (!isValid) {
             return res.status(400).json({ message : "Invalid Credentials"})
         }
-        const {password, ...userInfo} = user;
         generateToken(user._id, user.email, res);
+
+        const userInfo = {
+            _id: user._id,
+            email: user.email,
+            fullName: user.name,
+            profilePic: user.profilePic,
+            isVerified: user.isVerified,
+            createdAt: user.createdAt,
+        }
         return res.status(200).json({userInfo})
     }
     catch(err){
@@ -131,7 +145,15 @@ export const updateProfile = async (req,res) => {
         }
         user.profilePic = cloud.secure_url;
         await user.save();
-        const {password, ...userInfo} = user;
+
+        const userInfo = {
+            _id: user._id,
+            email: user.email,
+            fullName: user.name,
+            profilePic: user.profilePic,
+            isVerified: user.isVerified,
+            createdAt: user.createdAt,
+        }
         return res.status(200).json(userInfo);
     } catch (err) {
         console.log("Error in updateProfile controller", err);
@@ -141,7 +163,14 @@ export const updateProfile = async (req,res) => {
 
 export const checkAuth = (req,res) => {
     try {
-        const {password, ...userInfo} = req.user;
+        const userInfo = {
+            _id: req.user._id,
+            email: req.user.email,
+            fullName: req.user.name,
+            profilePic: req.user.profilePic,
+            isVerified: req.user.isVerified,
+            createdAt: req.user.createdAt,
+        }
         return res.status(200).json(userInfo);
     } catch (err) {
         console.log("Error in checkAuth controller", err);
@@ -152,6 +181,7 @@ export const checkAuth = (req,res) => {
 export const verifyEmail = async (req,res) => {
     const { email, code } = req.body;
     const otp = Number(code);
+    console.log(email)
     try {
         const user = await User.findOne({ email });
         if (!user) {
@@ -168,8 +198,16 @@ export const verifyEmail = async (req,res) => {
         user.otp = undefined;
         user.otpExpiresAt = undefined;
         await user.save();
-        const {password, ...userInfo} = user;
         generateToken(user._id, user.email, res);
+
+        const userInfo = {
+            _id: user._id,
+            email: user.email,
+            fullName: user.name,
+            profilePic: user.profilePic,
+            isVerified: user.isVerified,
+            createdAt: user.createdAt,
+        }
         return res.status(200).json({userInfo});
 
     } catch (err) {
@@ -224,9 +262,17 @@ export const resetPassword = async (req,res) => {
         user.otpExpiresAt = undefined;
         await user.save();
         generateToken(user._id, user.email, res);
-        const {password, ...userInfo} = user
+
+        const userInfo = {
+            _id: user._id,
+            email: user.email,
+            fullName: user.name,
+            profilePic: user.profilePic,
+            isVerified: user.isVerified,
+            createdAt: user.createdAt,
+        }
         return res.status(200).json({userInfo});
-        
+
     } catch (err) {
         console.log("Error in resetPassword controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
