@@ -11,7 +11,7 @@ const PasswordCriteria = ({ password }) => {
         { text: "Contains special character", valid: /[^A-Za-z0-9]/.test(password) }
     ]
     return (
-        <div className="flex flex-col text-sm mt-4">
+        <div className="flex flex-col text-sm mt-2">
             {criteria.map((criteria, index) => 
                 <div key={index} className="flex items-center gap-2">
                     {criteria.valid ? (

@@ -1,21 +1,40 @@
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
 import { useState, useRef } from "react";
 import SubmitButton from "../components/SubmitButton";
+import { Loader } from "lucide-react";
+import { useAuthStore } from "../store/authStore";
 
 const EmailVerification = () => {
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef([]);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+    const error = useAuthStore((s) => s.error);
+    const verifyEmail = useAuthStore((s) => s.verifyEmail);
+    const isLoading = useAuthStore((s) => s.isLoading);
+    const setError = useAuthStore((s) => s.setError);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("OTP submitted:", otp);
+    const code = otp.join("");
+    if(!/^\d{6}$/.test(code)){
+      setError("OTP must be 6-digit number")
+    } else {
+
+      try {
+        await verifyEmail(code);
+        navigate("/");
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   const handleChange = (index, value) => {
     const newOtp = [...otp];
-
-    if (value.length > 1) {
+    if (value.length === 2 && index === 5) {}
+    else if (value.length > 1) {
       const pastedOtp = value.slice(0,6).split("")
       for (let i=0; i<6; i++) {
         newOtp[i] = pastedOtp[i] || "";
@@ -65,8 +84,10 @@ const EmailVerification = () => {
               />
             ))}
           </div>
+            { error && <p className="text-red-500 text-sm mt-2">{error}</p> }
+
           <SubmitButton 
-            text="Verify OTP"
+            text={isLoading ? <Loader className="animate-spin mx-auto" /> : "Verify Email" }
           />
         </form>
     </div>

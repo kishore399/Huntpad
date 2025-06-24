@@ -1,20 +1,37 @@
 import { useState } from "react";
 import Input from "../components/Input";
-import { User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock, Loader } from "lucide-react";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
-import { Link } from "react-router";
+import { Link, useNavigate  } from "react-router";
 import SubmitButton from "../components/SubmitButton";
+import { useAuthStore } from "../store/authStore";
 
 const Signup = () => {
 
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignup = (e) => {
+  const navigate = useNavigate();
+  const error = useAuthStore((s) => s.error);
+  const signup = useAuthStore((s) => s.signup);
+  const isLoading = useAuthStore((s) => s.isLoading);
+  const setError = useAuthStore((s) => s.setError);
+
+  const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("Signup clicked");
+    if (password !== confirmPassword) {
+      setError("Password do not match")
+    } else {
+      
+      try{
+        await signup(email, password, fullName);
+        navigate("/verify-email");
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   return (
@@ -27,8 +44,8 @@ const Signup = () => {
               Icon={ User }
               type="text"
               placeholder="Full Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
             />
             <Input 
               Icon={ Mail }
@@ -51,9 +68,12 @@ const Signup = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
+
+          { error && <p className="text-red-500 text-sm mt-2">{error}</p> }
+
           <PasswordStrengthMeter password={password}/>
           <SubmitButton 
-            text="Sign Up"
+            text={isLoading ? <Loader className="animate-spin mx-auto" /> : "Sign Up" }
           />
         </form>
         <div className="w-full p-4 bg-slate-400 mt-2 flex justify-center items-center gap-2">
