@@ -8,7 +8,9 @@ export const useAuthStore = create((set, get) => ({
     user: null,
     error: null,
     isLoading: false,
+    isAuthenticated: false,
     isVerified: false,
+    isCheckingAuth: false,
 
     setError: (msg) => set({error: msg}),
 
@@ -16,7 +18,7 @@ export const useAuthStore = create((set, get) => ({
         set({ isLoading: true, error: null })
         try {
             const res = await axios.post(`${Auth_URL}/signup`,{ email, password, fullName });
-            set({user : res.data.userInfo, isVerified: true, isLoading: false})
+            set({user : res.data.userInfo, isAuthenticated: true, isLoading: false})
         } catch(err) {
             set({ error: err.response?.data?.message || "Error signing up", isLoading: false })
             throw err;
@@ -32,6 +34,16 @@ export const useAuthStore = create((set, get) => ({
         } catch (err) {
             set({ error: err.response?.data?.message || "Error signing up", isLoading: false })
             throw err;
+        }
+    },
+
+    checkAuth : async () => {
+        set({error: null, isCheckingAuth: true});
+        try {
+            const res = await axios.get(`${Auth_URL}/validate`);
+            set({ user: res.data.user, isAuthenticated: true, isCheckingAuth: false});
+        } catch (err) {
+            set({ error: null, isCheckingAuth: false});
         }
     }
 }))
