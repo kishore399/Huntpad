@@ -1,17 +1,28 @@
 import { useState } from "react";
 import Input from "../components/Input";
-import { Mail, Lock } from "lucide-react";
-import { Link } from "react-router";
+import { Mail, Lock, Loader } from "lucide-react";
+import { Link, useNavigate } from "react-router";
 import SubmitButton from "../components/SubmitButton";
+import { useAuthStore } from "../store/authStore";
 
 const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const navigate = useNavigate();
+  const error = useAuthStore((s) => s.error);
+  const login = useAuthStore((s) => s.login);
+  const isLoading = useAuthStore((s) => s.isLoading);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login clicked");
+      try{
+        await login(email, password);
+        navigate("/");
+      } catch (err) {
+        console.log(err);
+      }
   }
 
     return (
@@ -35,8 +46,10 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           <Link to="/forgot-password" className="text-sm hover:underline hover:text-blue-600 mt-2">Forgot password?</Link>
+          { error && <p className="text-red-500 text-sm mt-2">{error}</p> }
+
           <SubmitButton 
-            text="Login"
+            text={isLoading ? <Loader className="animate-spin mx-auto" /> : "Login" }
           />
         </form>
         <div className="w-full p-4 bg-slate-400 flex justify-center items-center gap-2">
