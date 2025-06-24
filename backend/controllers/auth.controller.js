@@ -47,10 +47,7 @@ export const signup = async (req,res) => {
         }else {
             return res.status(400).json({ message : "Invalid User Credentials" });
         }
-        const userInfo = {
-            name : name,
-            email : email
-        }
+        const {password, ...userInfo} = user;
 
         return res.status(201).json({ userInfo, message : "OTP sent seccessfully" })
 
@@ -80,14 +77,9 @@ export const login = async (req,res) => {
         if (!isValid) {
             return res.status(400).json({ message : "Invalid Credentials"})
         }
-
+        const {password, ...userInfo} = user;
         generateToken(user._id, user.email, res);
-        return res.status(200).json({
-            _id : user._id,
-            name : user.name,
-            email : user.email,
-            profilePic : user.profilePic
-        })
+        return res.status(200).json({userInfo})
     }
     catch(err){
         console.log("Error in login controller", err);
@@ -139,8 +131,8 @@ export const updateProfile = async (req,res) => {
         }
         user.profilePic = cloud.secure_url;
         await user.save();
-
-        return res.status(200).json(user);
+        const {password, ...userInfo} = user;
+        return res.status(200).json(userInfo);
     } catch (err) {
         console.log("Error in updateProfile controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -149,7 +141,8 @@ export const updateProfile = async (req,res) => {
 
 export const checkAuth = (req,res) => {
     try {
-        return res.status(200).json(req.user);
+        const {password, ...userInfo} = req.user;
+        return res.status(200).json(userInfo);
     } catch (err) {
         console.log("Error in checkAuth controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -171,17 +164,13 @@ export const verifyEmail = async (req,res) => {
         if (user.otpExpiresAt < Date.now()) {
             return res.status(400).json({ message: "OTP has expired" });
         }
-
+        user.isVerified = true;
         user.otp = undefined;
         user.otpExpiresAt = undefined;
         await user.save();
+        const {password, ...userInfo} = user;
         generateToken(user._id, user.email, res);
-        return res.status(200).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            profilePic: user.profilePic
-        });
+        return res.status(200).json({userInfo});
 
     } catch (err) {
         console.log("Error in verifyEmail controller", err);
@@ -235,14 +224,9 @@ export const resetPassword = async (req,res) => {
         user.otpExpiresAt = undefined;
         await user.save();
         generateToken(user._id, user.email, res);
-        return res.status(200).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            profilePic: user.profilePic
-        });
-
-
+        const {password, ...userInfo} = user
+        return res.status(200).json({userInfo});
+        
     } catch (err) {
         console.log("Error in resetPassword controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
