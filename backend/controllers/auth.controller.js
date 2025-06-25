@@ -151,7 +151,7 @@ export const updateProfile = async (req,res) => {
             isVerified: user.isVerified,
             createdAt: user.createdAt,
         }
-        return res.status(200).json(userInfo);
+        return res.status(200).json({userInfo});
     } catch (err) {
         console.log("Error in updateProfile controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -168,7 +168,7 @@ export const checkAuth = (req,res) => {
             isVerified: req.user.isVerified,
             createdAt: req.user.createdAt,
         }
-        return res.status(200).json(userInfo);
+        return res.status(200).json({userInfo});
     } catch (err) {
         console.log("Error in checkAuth controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -176,8 +176,7 @@ export const checkAuth = (req,res) => {
 }
 
 export const verifyEmail = async (req,res) => {
-    const { email, code } = req.body;
-    console.log(email)
+    const { email, code, from } = req.body;
     const otp = Number(code);
     try {
         const user = await User.findOne({ email });
@@ -192,10 +191,15 @@ export const verifyEmail = async (req,res) => {
             return res.status(400).json({ message: "OTP has expired" });
         }
         user.isVerified = true;
-        user.otp = undefined;
+        if (from === "forgot-password") {
+            user.otp = 1181     // newPassword
+        } else {
+            user.otp = undefined;
+            generateToken(user._id, user.email, res);
+        }
+        console.log(from,user.otp)
         user.otpExpiresAt = undefined;
         await user.save();
-        generateToken(user._id, user.email, res);
 
         const userInfo = {
             _id: user._id,
@@ -228,7 +232,7 @@ export const forgotPassword = async (req,res) => {
         // send OTP to user's email (this part is not implemented in this code snippet)
         console.log(`OTP for ${email} is ${otp}`);
 
-        return res.status(200).json({ message: "OTP sent successfully" });
+        return res.status(200).json({ userInfo : { email : email } });
 
     } catch (err) {
         console.log("Error in forgotPassword controller", err);
@@ -237,8 +241,8 @@ export const forgotPassword = async (req,res) => {
 }
 
 export const resetPassword = async (req,res) => {
-    const { email, otp, newPassword } = req.body;
-    if (newPassword.length < 6) {
+    const { email, password } = req.body;
+    if (password.length < 6) {
         return res.status(400).json({ message: "Password must be at least 6 characters long" });
     }
     try {
@@ -246,17 +250,13 @@ export const resetPassword = async (req,res) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-
-        if (user.otp !== otp) {
-            return res.status(400).json({ message: "Invalid OTP" });
+        console.log(user.otp)
+        if (user.otp !== 1181) {
+            return res.status(401).json({ message: "unAuthorized access" });
         }
-        if (user.otpExpiresAt < Date.now()) {
-            return res.status(400).json({ message: "OTP has expired" });
-        }
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         user.password = hashedPassword;
         user.otp = undefined;
-        user.otpExpiresAt = undefined;
         await user.save();
         generateToken(user._id, user.email, res);
 

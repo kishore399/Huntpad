@@ -52,7 +52,7 @@ const getColor = (strength) => {
     }
 }
 
-const PasswordStrength = ({ password }) => {
+const PasswordStrengthMeter = ({ password }) => {
     
     let strength = 0;
     if (password.length >= 6) strength++;
@@ -78,4 +78,4 @@ const PasswordStrength = ({ password }) => {
     </div>
   )
 }
-export default PasswordStrength
+export default PasswordStrengthMeter

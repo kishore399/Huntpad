@@ -25,15 +25,15 @@ export const useAuthStore = create((set, get) => ({
         }
     },
 
-    verifyEmail : async (code) => {
+    verifyEmail : async (code, from) => {
         set({ isLoading: true, error: null });
         try{
             const email = get().user?.email
-            const res = await axios.post(`${Auth_URL}/verifyEmail`, {code, email});
+            const res = await axios.post(`${Auth_URL}/verifyEmail`, {code, email, from});
             set({user: res.data.userInfo, isVerified: true, isLoading: false});
             console.log(get().user)
         } catch (err) {
-            set({ error: err.response?.data?.message || "Error signing up", isLoading: false })
+            set({ error: err.response?.data?.message || "Error verifying OTP", isLoading: false })
             throw err;
         }
     },
@@ -44,7 +44,7 @@ export const useAuthStore = create((set, get) => ({
             const res = await axios.post(`${Auth_URL}/login`,{ email, password });
             set({user : res.data.userInfo, isAuthenticated: true, isLoading: false})
         } catch(err) {
-            set({ error: err.response?.data?.message || "Error signing up", isLoading: false })
+            set({ error: err.response?.data?.message || "Error Logging in", isLoading: false })
             throw err;
         }
     },
@@ -53,10 +53,37 @@ export const useAuthStore = create((set, get) => ({
         set({error: null, isCheckingAuth: true});
         try {
             const res = await axios.get(`${Auth_URL}/validate`);
-            set({ user: res.data, isAuthenticated: true, isCheckingAuth: false});
+            set({ user: res.data.userInfo, isAuthenticated: true, isCheckingAuth: false});
         } catch (err) {
             console.log(err);
             set({ error: null, isCheckingAuth: false});
         }
-    }
+    },
+
+    forgotPassword: async (email) => {
+        set({ isLoading: true, error: null });
+        try {
+            const res = await axios.post(`${Auth_URL}/forgotPassword`,{ email });
+            set({ user : res.data.userInfo, isLoading: false });
+            console.log(res.data)
+            console.log(get().user)
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error reseting password", isLoading: false })
+            throw err;
+        }
+    },
+
+    resetPassword : async (password) => {
+        set({ isLoading: true, error: null });
+        try{
+            const email = get().user?.email
+            console.log(password)
+            const res = await axios.post(`${Auth_URL}/resetPassword`, {password, email});
+            set({user: res.data.userInfo, isLoading: false});
+            console.log(get().user)
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error verifying OTP", isLoading: false })
+            throw err;
+        }
+    },
 }))

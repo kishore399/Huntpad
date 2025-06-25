@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useState, useRef } from "react";
 import SubmitButton from "../components/SubmitButton";
 import { Loader } from "lucide-react";
@@ -10,6 +10,7 @@ const EmailVerification = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef([]);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
     const error = useAuthStore((s) => s.error);
     const verifyEmail = useAuthStore((s) => s.verifyEmail);
@@ -19,13 +20,18 @@ const EmailVerification = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const code = otp.join("");
+    const from = searchParams.get("from");
     if(!/^\d{6}$/.test(code)){
       setError("OTP must be 6-digit number")
     } else {
 
       try {
-        await verifyEmail(code);
-        navigate("/");
+        await verifyEmail(code, from);
+        if (from === "signup"){
+          navigate("/");
+        } else {
+          navigate("/reset-password")
+        }
         toast.success("Email verified successfully");
       } catch (err) {
         console.log(err);

@@ -28,7 +28,7 @@ const Signup = () => {
       
       try{
         await signup(email, password, fullName);
-        navigate("/verify-email");
+        navigate("/verify-email?from=signup");
         toast.success("OTP sent successfully")
       } catch (err) {
         console.log(err);

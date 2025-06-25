@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import EmailVerification from "./pages/EmailVerification";
 import ForgotPassword from "./pages/ForgotPassword";
 import { useAuthStore } from "./store/authStore";
+import ResetPassword from "./pages/ResetPassword";
  
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -84,6 +85,14 @@ const App = () => {
         element={
           <RedirectVerifiedUser>
             <ForgotPassword />
+          </RedirectVerifiedUser>
+        }
+      />
+      <Route 
+        path="/reset-password" 
+        element={
+          <RedirectVerifiedUser>
+            <ResetPassword />
           </RedirectVerifiedUser>
         }
       />
