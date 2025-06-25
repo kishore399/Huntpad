@@ -49,7 +49,6 @@ const EmailVerification = () => {
     } else {
       newOtp[index] = value;
       setOtp(newOtp);
-      console.log("OTP changed:", newOtp);
       if (index !== 5 && value) {
         inputRef.current[index+1].focus();
       }

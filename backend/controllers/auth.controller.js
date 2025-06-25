@@ -44,6 +44,7 @@ export const signup = async (req,res) => {
         }else {
             return res.status(400).json({ message : "Invalid User Credentials" });
         }
+        generateToken(newUser._id, newUser.email, res);
         const userInfo = {
             _id: newUser._id,
             email: newUser.email,
@@ -176,6 +177,7 @@ export const checkAuth = (req,res) => {
 
 export const verifyEmail = async (req,res) => {
     const { email, code } = req.body;
+    console.log(email)
     const otp = Number(code);
     try {
         const user = await User.findOne({ email });

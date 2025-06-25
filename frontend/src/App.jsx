@@ -8,7 +8,20 @@ import EmailVerification from "./pages/EmailVerification";
 import ForgotPassword from "./pages/ForgotPassword";
 import { useAuthStore } from "./store/authStore";
  
-const ProtectedRoute = () => {}
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const user = useAuthStore((s) => s.user);
+
+  if(!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
+
+  if (!user.isVerified) {
+    return <Navigate to="/verify-email" replace />
+  }
+
+  return children;
+}
 
 const RedirectVerifiedUser = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -17,7 +30,7 @@ const RedirectVerifiedUser = ({ children }) => {
   if (isAuthenticated && user?.isVerified) {
     return <Navigate to="/" replace />
   }
-  return children
+  return children;
 }
 
 const App = () => {
@@ -29,12 +42,19 @@ const App = () => {
     checkAuth();
   },[])
 
-  console.log(isCheckingAuth)
+  if (isCheckingAuth) return <div>Checking auth</div>
 
   return (
     <div className="bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center w-screen h-screen flex justify-center items-center">
     <Routes>
-      <Route path="/" element={ <Home />} />
+      <Route 
+        path="/" 
+        element={ 
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
       <Route 
         path="/login" 
         element={
@@ -43,9 +63,30 @@ const App = () => {
           </RedirectVerifiedUser>
         }
       />
-      <Route path="/signup" element={ <Signup />} />
-      <Route path="/verify-email" element={ <EmailVerification />} />
-      <Route path="/forgot-password" element={ <ForgotPassword />} />
+      <Route 
+        path="/signup" 
+        element={
+          <RedirectVerifiedUser>
+            <Signup />
+          </RedirectVerifiedUser>
+        }
+      />
+      <Route 
+        path="/verify-email" 
+        element={
+          <RedirectVerifiedUser>
+            <EmailVerification />
+          </RedirectVerifiedUser>
+        }
+      />
+      <Route 
+        path="/forgot-password" 
+        element={
+          <RedirectVerifiedUser>
+            <ForgotPassword />
+          </RedirectVerifiedUser>
+        }
+      />
     </Routes>
     <Toaster />
     </div>
