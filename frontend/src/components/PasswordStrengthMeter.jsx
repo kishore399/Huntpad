@@ -28,7 +28,7 @@ const PasswordCriteria = ({ password }) => {
 }
 
 const getStrength = (strength) => {
-    if (strength === 0) return "very Weak";
+    if (strength === 0) return "very weak";
     if (strength === 1) return "weak";
     if (strength === 2) return "moderate";
     if (strength === 3) return "strong";

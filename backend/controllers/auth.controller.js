@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/util.js";
 import cloudinary from "../lib/cloudinary.js";
 import crypto from "crypto";
+import { sendEmail } from "../lib/resend.js";
 
 
 export const signup = async (req,res) => {
@@ -28,7 +29,10 @@ export const signup = async (req,res) => {
 
         const otp = crypto.randomInt(100000, 999999);  
         const hashedPassword = await bcrypt.hash(password, 10);
-        // send OTP to user's email (this part is not implemented in this code snippet)
+        
+        const resendResponse = sendEmail(email, "Welcome! Here's your OTP to get started", `<p>Your OTP fro the signup functionality ${otp}</p>`);
+        console.log(resendResponse)
+
         console.log(`OTP for ${email} is ${otp}`); 
 
         const newUser = new User ({

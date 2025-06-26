@@ -31,6 +31,24 @@ const RedirectVerifiedUser = ({ children }) => {
   if (isAuthenticated && user?.isVerified) {
     return <Navigate to="/" replace />
   }
+  if (isAuthenticated) {
+    return <Navigate to="/verify-email" replace />
+  }
+
+  return children;
+}
+
+const RedirectUnverifiedUser = ({ children }) => {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const user = useAuthStore((s) => s.user);
+
+  if (isAuthenticated && user?.isVerified) {
+    return <Navigate to="/" replace />
+  }
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
+
   return children;
 }
 
@@ -75,9 +93,9 @@ const App = () => {
       <Route 
         path="/verify-email" 
         element={
-          <RedirectVerifiedUser>
+          <RedirectUnverifiedUser>
             <EmailVerification />
-          </RedirectVerifiedUser>
+          </RedirectUnverifiedUser>
         }
       />
       <Route 
