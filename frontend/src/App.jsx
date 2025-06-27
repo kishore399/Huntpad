@@ -8,6 +8,7 @@ import EmailVerification from "./pages/EmailVerification";
 import ForgotPassword from "./pages/ForgotPassword";
 import { useAuthStore } from "./store/authStore";
 import ResetPassword from "./pages/ResetPassword";
+import NotFound from "./pages/NotFound";
  
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -33,20 +34,6 @@ const RedirectVerifiedUser = ({ children }) => {
   }
   if (isAuthenticated) {
     return <Navigate to="/verify-email" replace />
-  }
-
-  return children;
-}
-
-const RedirectUnverifiedUser = ({ children }) => {
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const user = useAuthStore((s) => s.user);
-
-  if (isAuthenticated && user?.isVerified) {
-    return <Navigate to="/" replace />
-  }
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
   }
 
   return children;
@@ -111,6 +98,12 @@ const App = () => {
             <ResetPassword />
           </RedirectVerifiedUser>
         }
+      />
+      <Route 
+        path="*" 
+        element={
+          <NotFound />
+        } 
       />
     </Routes>
     <Toaster />

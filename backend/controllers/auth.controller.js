@@ -91,6 +91,11 @@ export const login = async (req,res) => {
         }
         generateToken(user._id, user.email, res);
 
+        if (!user.isVerified) {
+            user.isVerified = true;
+            await user.save();
+        }
+
         const firstName = user.name.split(" ")[0];
         const htmlContent = welcomeBackMail(firstName)
         const resendResponse = sendEmail(email, "Glad to see you again", htmlContent);
