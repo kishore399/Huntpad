@@ -93,9 +93,7 @@ const App = () => {
       <Route 
         path="/verify-email" 
         element={
-          <RedirectUnverifiedUser>
             <EmailVerification />
-          </RedirectUnverifiedUser>
         }
       />
       <Route 

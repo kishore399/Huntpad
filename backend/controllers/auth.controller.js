@@ -4,7 +4,10 @@ import { generateToken } from "../lib/util.js";
 import cloudinary from "../lib/cloudinary.js";
 import crypto from "crypto";
 import { sendEmail } from "../lib/resend.js";
-
+import { signupOtpMail } from "../mailTemplate/signupOtp.js";
+import { resetPasswordMail } from "../mailTemplate/resetPasswordOtp.js";
+import { welcomeMail } from "../mailTemplate/WelcomeMail.js";
+import { welcomeBackMail } from "../mailTemplate/WelcomeBackMail.js";
 
 export const signup = async (req,res) => {
     const { fullName:name, email, password} = req.body;
@@ -30,7 +33,9 @@ export const signup = async (req,res) => {
         const otp = crypto.randomInt(100000, 999999);  
         const hashedPassword = await bcrypt.hash(password, 10);
         
-        const resendResponse = sendEmail(email, "Welcome! Here's your OTP to get started", `<p>Your OTP fro the signup functionality ${otp}</p>`);
+        const firstName = name.split(" ")[0];
+        const htmlContent = signupOtpMail(firstName, otp);
+        const resendResponse = sendEmail(email, "Welcome! Here's your OTP to get started", htmlContent);
         console.log(resendResponse)
 
         console.log(`OTP for ${email} is ${otp}`); 
@@ -85,6 +90,11 @@ export const login = async (req,res) => {
             return res.status(400).json({ message : "Invalid Credentials"})
         }
         generateToken(user._id, user.email, res);
+
+        const firstName = user.name.split(" ")[0];
+        const htmlContent = welcomeBackMail(firstName)
+        const resendResponse = sendEmail(email, "Glad to see you again", htmlContent);
+        console.log(resendResponse)
 
         const userInfo = {
             _id: user._id,
@@ -195,15 +205,19 @@ export const verifyEmail = async (req,res) => {
             return res.status(400).json({ message: "OTP has expired" });
         }
         user.isVerified = true;
-        if (from === "forgot-password") {
-            user.otp = 1181     // newPassword
-        } else {
-            user.otp = undefined;
-            generateToken(user._id, user.email, res);
-        }
+        user.otp = undefined;
         console.log(from,user.otp)
         user.otpExpiresAt = undefined;
         await user.save();
+        if (from === "signup") {
+            generateToken(user._id, user.email, res);
+
+            const firstName = user.name.split(" ")[0];
+            const htmlContent = welcomeMail(firstName)
+            const resendResponse = sendEmail(email, "You're all set - Let's get started", htmlContent);
+            console.log(resendResponse)
+        }
+
 
         const userInfo = {
             _id: user._id,
@@ -231,7 +245,13 @@ export const forgotPassword = async (req,res) => {
         const otp = crypto.randomInt(100000, 999999);
         user.otp = otp;
         user.otpExpiresAt = Date.now() + 30 * 60 * 1000; // 30 mins
+        user.isVerified = false;
         await user.save();
+      
+        const firstName = user.name.split(" ")[0];
+        const htmlContent = resetPasswordMail(firstName,otp)
+        const resendResponse = sendEmail(email, "Here's your password reset otp", htmlContent);
+        console.log(resendResponse)
 
         // send OTP to user's email (this part is not implemented in this code snippet)
         console.log(`OTP for ${email} is ${otp}`);
@@ -255,7 +275,7 @@ export const resetPassword = async (req,res) => {
             return res.status(404).json({ message: "User not found" });
         }
         console.log(user.otp)
-        if (user.otp !== 1181) {
+        if (!user.isVerified) {
             return res.status(401).json({ message: "unAuthorized access" });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
