@@ -6,8 +6,7 @@ import { useState, useEffect } from "react";
 
 const Home = () => {
   return (
-    <div className="flex flex-col">
-      <Navbar />
+    <div className="flex flex-col w-screen min-h-screen overflow-y-auto bg-stone-50">
       <div className="flex">
         <Sidebar />
         <NoteCard />
