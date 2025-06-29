@@ -37,6 +37,7 @@ const Signup = () => {
   }
 
   return (
+    <div className="flex justify-center items-center w-screen h-screen ">
     <div className="auth-card">
         <h2 className="auth-title">
             Create Account
@@ -82,6 +83,7 @@ const Signup = () => {
           <span className="text-sm text-gray-900">Already have an account?</span>
           <Link to="/login" className="text-sm hover:underline hover:text-blue-600">Login</Link>
         </div>
+    </div>
     </div>
   )
 }

@@ -26,6 +26,7 @@ const Login = () => {
   }
 
     return (
+      <div className="screen-center">
     <div className="auth-card">
         <h2 className="auth-title">
             Welcome Back
@@ -56,6 +57,7 @@ const Login = () => {
           <span className="text-sm text-gray-900">Don't have an account?</span>
           <Link to="/Signup" className="text-sm hover:underline hover:text-blue-600">SignUp</Link>
         </div>
+    </div>
     </div>
   )
 }

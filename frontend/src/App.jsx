@@ -51,7 +51,7 @@ const App = () => {
   if (isCheckingAuth) return <div>Checking auth</div>
 
   return (
-    <div className="bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center w-screen h-screen flex justify-center items-center">
+    <div className="bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center w-screen h-screen">
     <Routes>
       <Route 
         path="/" 

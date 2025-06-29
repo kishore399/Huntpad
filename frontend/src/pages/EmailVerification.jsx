@@ -68,6 +68,7 @@ const EmailVerification = () => {
   }
 
   return (
+    <div className="flex justify-center items-center w-screen h-screen ">
     <div className="auth-card">
         <h2 className="auth-title">
             Verify your Email
@@ -97,6 +98,7 @@ const EmailVerification = () => {
             text={isLoading ? <Loader className="animate-spin mx-auto" /> : "Verify Email" }
           />
         </form>
+    </div>
     </div>
   )
 }

@@ -27,6 +27,7 @@ const ForgotPassword = () => {
   }
 
   return (
+    <div className="flex justify-center items-center w-screen h-screen ">
     <div className="auth-card">
       <div className="auth-title mb-4">Forgot Password</div>
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2 mt-4 px-8">
@@ -47,6 +48,7 @@ const ForgotPassword = () => {
           <ArrowLeft className="text-slate-900 scale-75" />
           <Link to="/login" className="text-sm text-slate-900 hover:underline hover:text-blue-600">  Back to Login</Link>
         </div>
+    </div>
     </div>
   )
 }
