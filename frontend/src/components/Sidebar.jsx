@@ -3,17 +3,21 @@ import { ChevronsRight, ChevronsLeft, Search, Plus, CirclePlus } from "lucide-re
 
 const Sidebar = () => {
   return (
-    <aside className="w-1/3 min-h-screen bg-slate-200 pl-4 pt-5">
+    <aside className="w-48 max-sm:hidden min-h-screen rounded-md bg-slate-200 pl-4 pt-5 hover:bg-slate-300 space-y-2">
         <div>
-          Profile
-        </div>
-        <div className="">
-          <Search className="scale-75 inline" />
-          Search
+          <div>
+            Profile
+          </div>
         </div>
         <div>
-          <CirclePlus className="scale-75 inline" />
-          New page
+          <div className="">
+            <Search className="scale-75 inline" />
+            Search
+          </div>
+          <div>
+            <CirclePlus className="scale-75 inline" />
+            New page
+          </div>
         </div>
         <NotesList />
         <div>
