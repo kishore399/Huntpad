@@ -10,6 +10,7 @@ import { useAuthStore } from "./store/authStore";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import LoadingScreen from "./pages/LoadingScreen";
+import { useNoteStore } from "./store/noteStore";
  
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -44,7 +45,7 @@ const App = () => {
 
   const isCheckingAuth = useAuthStore((s) => s.isCheckingAuth);
   const checkAuth = useAuthStore((s) => s.checkAuth);
-  const [isDark, setIsDark] = useState(false);
+  const setIsDark = useNoteStore((s) => s.setIsDark)
 
   useEffect(() => {
     checkAuth();
@@ -64,7 +65,7 @@ const App = () => {
         path="/" 
         element={ 
           <ProtectedRoute>
-            <Home isDark={isDark} setIsDark={setIsDark} />
+            <Home />
           </ProtectedRoute>
         }
       />
