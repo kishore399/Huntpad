@@ -10,7 +10,7 @@ import { useAuthStore } from "./store/authStore";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import LoadingScreen from "./pages/LoadingScreen";
-import { useNoteStore } from "./store/noteStore";
+import { useAppStore } from "./store/appStore";
  
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -45,7 +45,7 @@ const App = () => {
 
   const isCheckingAuth = useAuthStore((s) => s.isCheckingAuth);
   const checkAuth = useAuthStore((s) => s.checkAuth);
-  const setIsDark = useNoteStore((s) => s.setIsDark)
+  const setIsDark = useAppStore((s) => s.setIsDark)
 
   useEffect(() => {
     checkAuth();

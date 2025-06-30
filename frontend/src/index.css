@@ -14,6 +14,12 @@
   }
 }
 
+@layer utilities {
+  .t {
+    @apply transition-all duration-300 ease-in-out;
+  }
+}
+
 @layer components {
     .auth-card{
         @apply max-w-md w-full transition-all duration-300 delay-75 ease-in-out bg-stone-50 overflow-hidden rounded-lg shadow-violet-400 flex flex-col justify-center m-4 hover:-translate-y-1 hover:shadow-md;
