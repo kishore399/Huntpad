@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import { useAuthStore } from "./store/authStore";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import LoadingScreen from "./pages/LoadingScreen";
  
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -48,7 +49,7 @@ const App = () => {
     checkAuth();
   },[])
 
-  if (isCheckingAuth) return <div>Checking auth</div>
+  if (isCheckingAuth) return <LoadingScreen />
 
   return (
     <div className="bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center w-screen h-screen">
