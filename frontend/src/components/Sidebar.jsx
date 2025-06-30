@@ -3,9 +3,9 @@ import { ChevronsRight, ChevronsLeft, Search, Plus, CirclePlus } from "lucide-re
 
 const Sidebar = () => {
   return (
-    <aside className="w-48 max-sm:hidden min-h-screen rounded-md bg-slate-200 pl-4 pt-5 hover:bg-slate-300 space-y-2">
+    <aside className="w-48 max-sm:hidden min-h-screen bg-slate-200 px-2 space-y-2 dark:bg-gray-700 dark:text-slate-300 transition-all duration-300 ease-in-out">
         <div>
-          <div>
+          <div className="bg-slate-300 rounded-lg my-2 p-2 dark:text-white dark:bg-slate-800 transition-all duration-300 ease-in-out">
             Profile
           </div>
         </div>

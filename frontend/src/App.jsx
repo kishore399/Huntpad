@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import { Navigate, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
@@ -44,9 +44,15 @@ const App = () => {
 
   const isCheckingAuth = useAuthStore((s) => s.isCheckingAuth);
   const checkAuth = useAuthStore((s) => s.checkAuth);
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     checkAuth();
+    const theme = localStorage.getItem("theme");
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+      setIsDark(true);
+    }
   },[])
 
   if (isCheckingAuth) return <LoadingScreen />
@@ -58,7 +64,7 @@ const App = () => {
         path="/" 
         element={ 
           <ProtectedRoute>
-            <Home />
+            <Home isDark={isDark} setIsDark={setIsDark} />
           </ProtectedRoute>
         }
       />

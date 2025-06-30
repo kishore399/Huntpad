@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer components {
     .auth-title {
         @apply text-2xl font-bold text-violet-500 text-center mt-8;
