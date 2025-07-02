@@ -13,7 +13,7 @@ const Sidebar = ({ handleProfileClick }) => {
   return (
     <aside className={`z-10 ${isCollapsed ? "hidden": "w-screen fixed top-0 left-0 sm:static sm:w-48" } min-h-screen overflow-y-auto bg-slate-200 px-2 space-y-2 dark:bg-gray-700 dark:text-slate-300 t`}>
         <div>
-          <div className="bg-slate-300 rounded-lg my-2 mx-1 p-2 dark:text-white dark:bg-slate-800 t flex items-center justify-between">
+          <div className="bg-slate-300 rounded-lg my-2 mx-1 p-2 dark:text-white dark:bg-slate-800 t flex items-center justify-between cursor-pointer">
             <div onClick={handleProfileClick} className="flex justify-center items-center gap-2 overflow-hidden pr-2">
               <div className={`w-7 h-7 shrink-0 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]` : "bg-violet-600" }`}></div>
               <p className="truncate sm:max-w-[90px] ">{user.fullName}</p>
