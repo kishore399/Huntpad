@@ -11,10 +11,14 @@ const noteSchema = new mongoose.Schema(
             required : true
         },
         content : {
-            type : String,
+            type : mongoose.Schema.Types.Mixed,
             required : true
         },
         isPinned : {
+            type : Boolean,
+            default : false
+        },
+        isPublished : {
             type : Boolean,
             default : false
         }

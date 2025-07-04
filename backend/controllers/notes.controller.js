@@ -1,10 +1,10 @@
 import Note from "../models/notes.model.js";
 
-export const getAllNotes = async (req,res) => {
+export const listNotes = async (req,res) => {
     try{
         const userId = req.user._id;
 
-        const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1});
+        const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1}).select("-content -userId");
         if (!notes) {
             return res.status(404).json({ message: "No notes found" });
         }
@@ -12,8 +12,30 @@ export const getAllNotes = async (req,res) => {
         return res.status(200).json(notes);
 
     }catch (err) {
-        console.log("Error in getAllNotes controller", err);
+        console.log("Error in listNotes controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+export const getNote = async (req,res) => {
+    try {
+        const userId = req.user._id;
+        const noteId = req.params.id
+
+        const note = await Note.findById(noteId).select("content userId");
+        if (!note) {
+            return res.status(404).json({ message: "No notes found" });
+        }
+
+        if(note.userId != userId) {
+            return res.status(401).json({ message: "Unauthorized Access" })
+        }
+
+        return res.status(200).json(note);
+
+    } catch (err) {
+        console.log("error in getNote controller", err);
+        return res.status(500).json({ message: "Internal Server Error" })
     }
 }
 

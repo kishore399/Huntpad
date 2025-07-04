@@ -1,10 +1,12 @@
 import express from 'express';
-import { createNote, deleteNote, getAllNotes, updateNote, pinNote } from '../controllers/notes.controller.js';
+import { createNote, deleteNote, listNotes, getNote, updateNote, pinNote } from '../controllers/notes.controller.js';
 import { validateUser } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
-router.get("/", validateUser, getAllNotes);
+router.get("/", validateUser, listNotes);
+
+router.get("/:id", validateUser, getNote);
 
 router.post("/", validateUser, createNote);
 
