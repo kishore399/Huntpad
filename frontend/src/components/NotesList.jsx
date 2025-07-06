@@ -17,8 +17,8 @@ const NotesList = () => {
     <div className="mx-1 space-y-1 text-lg">
       {Notes?.map((note,index) => (
         <div key={index} className="group flex items-center justify-between">
-          <div className="text-md">{note.title}</div>
-          <div className="flex scale-75 gap-3 dark:text-slate-300 opacity-0 max-md:opacity-100 t group-hover:opacity-100">
+          <div className="text-[16px] truncate">{note.title}</div>
+          <div className="flex scale-75 gap-3 dark:text-slate-300 opacity-0 max-md:opacity-100 t group-hover:opacity-100 shrink-0">
             <div onClick={handlePin} className="">{note.isPinned ? <PinOff /> : <Pin />}</div>
             <div onClick={handleDelete} className=""><Trash2 /></div>
           </div>

@@ -11,6 +11,7 @@ import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import LoadingScreen from "./pages/LoadingScreen";
 import { useAppStore } from "./store/appStore";
+import Editor from "./components/Editor";
  
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -68,7 +69,9 @@ const App = () => {
             <Home />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path="/notes/:id" element={<Editor />} />
+      </Route>
       <Route 
         path="/login" 
         element={

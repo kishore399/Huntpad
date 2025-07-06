@@ -1,6 +1,6 @@
 import NoteCard from "../components/NoteCard";
 import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import { Outlet } from "react-router";
 import { useState, useEffect } from "react";
 import ProfilePage from "./ProfilePage";
 import { useAppStore } from "../store/appStore";
@@ -23,7 +23,9 @@ const Home = () => {
       <div className="flex flex-col overflow-y-auto t">
         <div className="flex">
           <Sidebar handleProfileClick={() => setShowProfile(true)}/>
-          <NoteCard />
+          <NoteCard>
+            <Outlet />
+          </NoteCard>
         </div>
       </div>
       {showProfile && <ProfilePage close={() => setShowProfile(false)} />}

@@ -11,7 +11,7 @@ export const useAppStore = create((set,get) => ({
     setIsCollapsed: () => set((s) => ({isCollapsed : !s.isCollapsed})),
     isLoading: false,
     error: null,
-    notes: [ {title: "Untitled", content: "type '/' for commands"}, {title: "Welcome", content: "type '/' for commands"} ],
+    notes: [ {title: "Xmen in the forest fishing fishes to eat", content: "type '/' for commands"}, {title: "Welcome", content: "type '/' for commands"} ],
     defaultEmptyNote: {
         title: "Untitled",
         content: "type '/' for commands"
@@ -31,7 +31,7 @@ export const useAppStore = create((set,get) => ({
         set({ isLoading: true })
         try {
             const res = await axios.get(Notes_URL);
-            set({ isLoading: false, notes: res.data });  
+            set({ isLoading: false, notes: [...notes, res.data] });  
             console.log(res.data);     
         } catch (err) {
             set({ error: err.response?.data?.message || "Error fetching Notes metadata", isLoading: false });
@@ -45,7 +45,16 @@ export const useAppStore = create((set,get) => ({
             set({ notes : [...notes, defaultEmptyNote] });
             console.log(res.data);     
         } catch (err) {
-            set({ error: err.response?.data?.message || "Error fetching Notes metadata", isLoading: false });
+            set({ error: err.response?.data?.message || "Error creating notes", isLoading: false });
         }
-    }
+    },
+
+    updateNote : async (id, notes) => {
+        try {
+            const res = await axios.put(`${Notes_URL}/${id}`, notes);
+            console.log(res.data);     
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error updating notes", isLoading: false });           
+        }
+    },
 }))
