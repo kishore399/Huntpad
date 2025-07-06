@@ -4,11 +4,7 @@ export const listNotes = async (req,res) => {
     try{
         const userId = req.user._id;
 
-        const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1}).select("-content -userId");
-        if (!notes) {
-            return res.status(404).json({ message: "No notes found" });
-        }
-
+        const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1}).select("-content");
         return res.status(200).json(notes);
 
     }catch (err) {

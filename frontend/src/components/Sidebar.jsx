@@ -9,9 +9,14 @@ const Sidebar = ({ handleProfileClick }) => {
   const isCollapsed = useAppStore((s) => s.isCollapsed);
   const setIsCollapsed = useAppStore((s) => s.setIsCollapsed);
   const user = useAuthStore((s) => s.user);
+  const createNote = useAppStore((s) => s.createNote)
+
+  const createPage = async () => {
+    await createNote();
+  }
 
   return (
-    <aside className={`z-10 ${isCollapsed ? "hidden": "w-screen fixed top-0 left-0 sm:static sm:w-48" } min-h-screen overflow-y-auto bg-slate-200 px-2 space-y-2 dark:bg-gray-700 dark:text-slate-300 t`}>
+    <aside className={`z-10 ${isCollapsed ? "hidden": "w-screen fixed top-0 left-0 sm:static sm:w-48" } min-h-screen overflow-y-auto bg-slate-200 px-2 space-y-2 dark:bg-gray-700 dark:text-slate-300 cursor-pointer t`}>
         <div>
           <div className="bg-slate-300 rounded-lg my-2 mx-1 p-2 dark:text-white dark:bg-slate-800 t flex items-center justify-between cursor-pointer">
             <div onClick={handleProfileClick} className="flex justify-center items-center gap-2 overflow-hidden pr-2">
@@ -26,12 +31,12 @@ const Sidebar = ({ handleProfileClick }) => {
             <Search className="scale-75 inline mr-2" />
             Search
           </div>
-          <div className="">
+          <div onClick={createPage} className="">
             <CirclePlus className="scale-75 inline mr-2" />
             New page
           </div>
         <NotesList />
-        <div>
+        <div onClick={createPage}>
           <Plus className="scale-75 inline mr-2" />
           Add a page
         </div>

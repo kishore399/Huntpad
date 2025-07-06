@@ -3,11 +3,20 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import ProfilePage from "./ProfilePage";
+import { useAppStore } from "../store/appStore";
 
 
 const Home = () => {
 
   const [showProfile, setShowProfile] = useState(false);
+  const getNotes = useAppStore((s) => s.getNotes);
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      await getNotes();
+    }
+    fetchNotes();
+  }, [])
 
   return (
     <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-50 dark:bg-zinc-900 t">
