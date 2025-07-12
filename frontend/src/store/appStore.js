@@ -12,9 +12,21 @@ export const useAppStore = create((set,get) => ({
     isLoading: false,
     error: null,
     notes: [ {title: "Xmen in the forest fishing fishes to eat", content: "type '/' for commands"}, {title: "Welcome", content: "type '/' for commands"} ],
+    selectedNotesId: null,
+    selectedContent: [],
     defaultEmptyNote: {
         title: "Untitled",
         content: "type '/' for commands"
+    },
+
+    updateContent: (newContent) => {
+        set({ selectedContent: newContent })
+    },
+
+    updateTitle: (newTitle) => {
+        set((s) => ({notes: s.notes.map((note) => (
+            (note._id === s.selectedNotesId) ? {...note , title: newTitle} : note
+        ))}))
     },
 
     updateProfilePic : async (profilePic) => {
@@ -29,13 +41,28 @@ export const useAppStore = create((set,get) => ({
 
     getNotes : async () => {
         set({ isLoading: true })
+        console.log("fetching notes")
         try {
             const res = await axios.get(Notes_URL);
-            set({ isLoading: false, notes: [...notes, res.data] });  
-            console.log(res.data);     
+            const currentNotes = get().notes;
+            set({ isLoading: false, notes: [...currentNotes, ...res.data] });  
+            console.log(res.data,"at last");     
         } catch (err) {
+            console.log(err.response?.data?.message || "error")
             set({ error: err.response?.data?.message || "Error fetching Notes metadata", isLoading: false });
         }
+    },
+
+    getContent : async (id) => {
+        set({ selectedNotesId: id })
+        // set({ isLoading: true })
+        // try {
+            // const res = await axios.get(Notes_URL);
+            // set({ isLoading: false, selectedContent: res.data });  
+            // console.log(res.data);     
+        // } catch (err) {
+            // set({ error: err.response?.data?.message || "Error fetching Note's content", isLoading: false });
+        // }
     },
 
     createNote : async () => {

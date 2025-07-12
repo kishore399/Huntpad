@@ -5,6 +5,7 @@ export const listNotes = async (req,res) => {
         const userId = req.user._id;
 
         const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1}).select("-content");
+        console.log(notes)
         return res.status(200).json(notes);
 
     }catch (err) {

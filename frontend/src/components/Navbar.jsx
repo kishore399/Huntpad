@@ -1,13 +1,18 @@
 import { Moon, Sun, Menu } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
+import { useState, useEffect } from 'react';
 
 const Navbar = () => {
 
   const isDark = useAppStore((s) => s.isDark);
   const setIsDark = useAppStore((s) => s.setIsDark);
   const isCollapsed = useAppStore((s) => s.isCollapsed);
-  const setIsCollapsed = useAppStore((s) => s.setIsCollapsed)
+  const setIsCollapsed = useAppStore((s) => s.setIsCollapsed);
+  const notes = useAppStore((s) => s.notes);
+  const selectedNotesId = useAppStore((s) => s.selectedNotesId);
 
+  const title = notes.find((note) => note._id === selectedNotesId)?.title || "Untitled";
+ 
   const toggleTheme = () => {
   const isDarkNow = document.documentElement.classList.toggle("dark");
   localStorage.setItem("theme", isDarkNow ? "dark" : "light");
@@ -23,7 +28,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-between ml-3">
               <Menu onClick={setIsCollapsed} className={`${isCollapsed ? "" : "hidden"} hover:scale-110 cursor-pointer`} />
-              <nav className="font-semibold text-xl rounded-lg px-4 py-1 ml-2 t">Untitled</nav>
+              <div className="font-semibold text-xl rounded-lg px-4 py-1 ml-2 truncate max-w-48 t">{title}</div>
             </div>
             <div className="flex items-center justify-center gap-4">
               <button onClick={handlePublish} className="font-semibold text-sm bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full hover:ring-1 hover:ring-slate-700 dark:hover:ring-slate-300 cursor-pointer t">Publish</button>
