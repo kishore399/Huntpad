@@ -27,6 +27,18 @@ export const useAppStore = create((set,get) => ({
         set((s) => ({notes: s.notes.map((note) => (
             (note._id === s.selectedNotesId) ? {...note , title: newTitle} : note
         ))}))
+        console.log("Title updated to: ", newTitle);
+    },
+
+    saveTitle: async (id, title) => {
+        set({ isLoading: true })
+        try {
+            const res = await axios.put(`${Notes_URL}/title/${id}`, { title });
+            set({ isLoading: false });
+            console.log("Title saved successfully:", res.data);
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error saving title", isLoading: false });
+        }
     },
 
     updateProfilePic : async (profilePic) => {

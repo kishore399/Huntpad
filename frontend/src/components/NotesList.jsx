@@ -18,6 +18,7 @@ const NotesList = () => {
 
   const loadNote = async(id) => {
     await getContent(id);
+    console.log(id)
     navigate(`/notes/${id}`)
   }
 
