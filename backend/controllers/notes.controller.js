@@ -65,24 +65,40 @@ export const createNote = async (req,res) => {
 export const updateNote = async (req,res) => {
     try {
         const noteId = req.params.id;
-        const { title, content } = req.body || {};
-        if (!title && !content) {
-            return res.status(400).json({ message : "Oops! You didn't make any changes" })
-        }
+        const { content } = req.body || "";
 
         const note = await Note.findById(noteId);
         if (!note) {
             return res.status(404).json({ message : "Note not found"})
         }
 
-        if (title) note.title = title;
-        if (content) note.content = content;
+        note.content = content;
 
         await note.save();
         return res.status(200).json(note);
 
     } catch (err) {
         console.log("Error in updateNote controller", err);
+        return res.status(500).json({ message : "Internal Server Error" });
+    }
+}
+
+export const updateTitle = async (req,res) => {
+    try {
+        const noteId = req.params.id;
+        const { title } = req.body;
+
+        const note = await Note.findById(noteId);
+        if (!note) {
+            return res.status(404).json({ message : "Note not found" });
+        }
+
+        note.title = title;
+        await note.save();
+        return res.status(200).json(note);
+
+    } catch (err) {
+        console.log("Error in updateTitle controller", err);
         return res.status(500).json({ message : "Internal Server Error" });
     }
 }
@@ -108,6 +124,7 @@ export const deleteNote = async (req,res) => {
 export const pinNote = async (req,res) => {
     try {
         const noteId = req.params.id;
+        const userId = req.user._id;
 
         const note = await Note.findById(noteId);
         if (!note) {
@@ -117,7 +134,9 @@ export const pinNote = async (req,res) => {
         note.isPinned = !note.isPinned;
 
         await note.save();
-        return res.status(200).json(note);
+
+        const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1 }).select("-content");
+        return res.status(200).json(notes);
 
     } catch (err) {
         console.log("Error in pinNote controller", err);

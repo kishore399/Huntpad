@@ -24,7 +24,7 @@ const Navbar = () => {
   }
 
   return (
-    <header className="h-11 mt-4 mr-2 text-slate-700 dark:text-stone-50">
+    <header className="h-11 mt-4 mr-2 text-slate-700 dark:text-stone-50 cursor-default">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-between ml-3">
               <Menu onClick={setIsCollapsed} className={`${isCollapsed ? "" : "hidden"} hover:scale-110 cursor-pointer`} />

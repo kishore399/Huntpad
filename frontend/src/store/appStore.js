@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import { deleteNote, pinNote } from "../../../backend/controllers/notes.controller";
 
 const Notes_URL = "http://localhost:5000/api/notes";
 axios.defaults.withCredentials = true;
@@ -11,7 +12,7 @@ export const useAppStore = create((set,get) => ({
     setIsCollapsed: () => set((s) => ({isCollapsed : !s.isCollapsed})),
     isLoading: false,
     error: null,
-    notes: [ {title: "Xmen in the forest fishing fishes to eat", content: "type '/' for commands"}, {title: "Welcome", content: "type '/' for commands"} ],
+    notes: [],
     selectedNotesId: null,
     selectedContent: [],
     defaultEmptyNote: {
@@ -56,8 +57,7 @@ export const useAppStore = create((set,get) => ({
         console.log("fetching notes")
         try {
             const res = await axios.get(Notes_URL);
-            const currentNotes = get().notes;
-            set({ isLoading: false, notes: [...currentNotes, ...res.data] });  
+            set({ isLoading: false, notes: res.data });  
             console.log(res.data,"at last");     
         } catch (err) {
             console.log(err.response?.data?.message || "error")
@@ -81,7 +81,7 @@ export const useAppStore = create((set,get) => ({
         try {
             const { notes, defaultEmptyNote } = get();
             const res = await axios.post(Notes_URL, defaultEmptyNote);
-            set({ notes : [...notes, defaultEmptyNote] });
+            set({ notes : [...notes, res.data] });
             console.log(res.data);     
         } catch (err) {
             set({ error: err.response?.data?.message || "Error creating notes", isLoading: false });
@@ -94,6 +94,28 @@ export const useAppStore = create((set,get) => ({
             console.log(res.data);     
         } catch (err) {
             set({ error: err.response?.data?.message || "Error updating notes", isLoading: false });           
+        }
+    },
+
+    deleteNote: async (id) => {
+        set({ isLoading: true })
+        try {
+            const res = await axios.delete(`${Notes_URL}/${id}`);
+            set((s) => ({ notes: s.notes.filter((note) => note._id !== id), isLoading: false }));
+            console.log("deleted", res.data);
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error deleting note", isLoading: false });
+        }
+    },
+
+    pinNote: async (id) => {
+        set({ isLoading: true })
+        try {
+            const res = await axios.put(`${Notes_URL}/pin/${id}`);
+            set({ isLoading: false, notes: res.data });
+            console.log("Pin",res.data);
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error pinning note", isLoading: false });
         }
     },
 }))

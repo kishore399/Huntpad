@@ -28,7 +28,8 @@ const Editor = () => {
   }
 
   const onTitleBlur = () => {
-    const newTitle = 0
+    saveTitle(selectedNotesId, titleref.current.innerText);
+    titleref.current.blur();
   }
 
   const editor = useCreateBlockNote({
@@ -45,6 +46,7 @@ const Editor = () => {
         contentEditable={true}
         spellCheck={false}
         onInput={onTitleChange}
+        onBlur={onTitleBlur}
         className="text-3xl box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full"
       />
       <div className="h-full w-full">
