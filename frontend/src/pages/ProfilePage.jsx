@@ -1,5 +1,6 @@
 import { useAuthStore } from "../store/authStore";
 import { User, Mail, CalendarClock } from "lucide-react";
+import { useRef } from "react";
 
 const ProfilePage = ({close}) => {
     
@@ -7,11 +8,31 @@ const ProfilePage = ({close}) => {
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
 
+  const inputRef = useRef(null);
+
   const handleLogout = async () => {
     try {
       await logout();
     } catch (err) {
       console.error("Error logging out:", err);
+    }
+  }
+
+  const handleProfilePicClick = () => {
+    console.log("Profile picture clicked");
+    inputRef.current.value = null;
+    inputRef.current.click();
+  }
+
+  const handleProfilePicChange = (e) => {
+    console.log("Profile picture changed:", e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        updateProfilePic(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -22,7 +43,7 @@ const ProfilePage = ({close}) => {
           <div className="flex flex-col justify-center items-center">
             <h1 className="m-2 text-3xl wor font-bold">Profile</h1>
             <h1 className="font-semibold text-md">Your Profile Information</h1>
-            <div onClick={() => console.log("Profile updating")} className="size-32 rounded-full bg-violet-600 cursor-pointer m-4"></div>
+            <div onClick={handleProfilePicClick} className={`size-32 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]`: "bg-[url('/avatar.jpg')]"} bg-cover bg-center cursor-pointer m-4`}></div>
             <h1 className="text-sm">Click to update your profile picture</h1>
           </div>
           <div className="mt-3 dark:text-stone-50">
@@ -53,7 +74,7 @@ const ProfilePage = ({close}) => {
           </div>
         </div>
       </div>
-      <input type="file" accept="image/*" onChange={(e) => updateProfilePic(e.target.files[0])} className="hidden" />
+      <input type="file" accept="image/*" ref={inputRef} onChange={(e) => {console.log("OnChange"); handleProfilePicChange(e);}} className="hidden" />
     </div>
   )
 }

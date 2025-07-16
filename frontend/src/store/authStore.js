@@ -92,6 +92,7 @@ export const useAuthStore = create((set, get) => ({
         try {
             const res = await axios.put("http://localhost:5000/api/auth/profilePic",{ profilePic });
             set({user: res.data.userInfo, isLoading: false});
+            console.log("Profile picture updated successfully:", res.data);
         } catch(err) {
             set({ error: err.response?.data?.message || "Error updating Profil Picture", isLoading: false })
         }

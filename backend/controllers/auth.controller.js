@@ -135,6 +135,7 @@ export const logout = (req,res) => {
 export const updateProfile = async (req,res) => {
     try {
         const { profilePic } = req.body;
+        console.log("profilePic:", profilePic);
         if (!profilePic) {
             return res.status(400).json({ message : "No profile picture provided" });
         }
