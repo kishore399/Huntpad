@@ -20,8 +20,14 @@ export const useAppStore = create((set,get) => ({
         content: "type '/' for commands"
     },
 
-    updateContent: (newContent) => {
+    updateContent: async (newContent) => {
         set({ selectedContent: newContent })
+        try {
+            const res = await axios.put(`${Notes_URL}/${id}`, content);
+            console.log(res.data);     
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error updating notes", isLoading: false });           
+        }
     },
 
     updateTitle: (newTitle) => {
@@ -66,15 +72,14 @@ export const useAppStore = create((set,get) => ({
     },
 
     getContent : async (id) => {
-        set({ selectedNotesId: id })
-        // set({ isLoading: true })
-        // try {
-            // const res = await axios.get(Notes_URL);
-            // set({ isLoading: false, selectedContent: res.data });  
-            // console.log(res.data);     
-        // } catch (err) {
-            // set({ error: err.response?.data?.message || "Error fetching Note's content", isLoading: false });
-        // }
+        set({ selectedNotesId: id, isLoading: true })
+        try {
+            const res = await axios.get(Notes_URL);
+            set((s) => ({ isLoading: false, selectedContent: res.data?.content || s.selectedContent }));  
+            console.log(res.data);     
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error fetching Note's content", isLoading: false });
+        }
     },
 
     createNote : async () => {
@@ -85,15 +90,6 @@ export const useAppStore = create((set,get) => ({
             console.log(res.data);     
         } catch (err) {
             set({ error: err.response?.data?.message || "Error creating notes", isLoading: false });
-        }
-    },
-
-    updateNote : async (id, notes) => {
-        try {
-            const res = await axios.put(`${Notes_URL}/${id}`, notes);
-            console.log(res.data);     
-        } catch (err) {
-            set({ error: err.response?.data?.message || "Error updating notes", isLoading: false });           
         }
     },
 

@@ -5,6 +5,15 @@ const ProfilePage = ({close}) => {
     
   const updateProfilePic = useAuthStore((s) => s.updateProfilePic);
   const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error("Error logging out:", err);
+    }
+  }
 
   return (
     <div onClick={close} className="absolute z-20 inset-0 flex justify-center items-center backdrop-blur-xs p-4 cursor-default t">
@@ -40,10 +49,11 @@ const ProfilePage = ({close}) => {
             <h1>{user.createdAt}</h1>
           </div>
           <div className="flex gap-2 justify-end mt-3">
-            <button className="dark:bg-red-700 bg-red-500 font-semibold p-2 px-6 rounded-lg m-2 mx-6 cursor-pointer text-stone-50 hover:scale-105 hover:bg-red-600 dark:hover:bg-red-800">Logout</button>
+            <button onClick={handleLogout} className="dark:bg-red-700 bg-red-500 font-semibold p-2 px-6 rounded-lg m-2 mx-6 cursor-pointer text-stone-50 hover:scale-105 hover:bg-red-600 dark:hover:bg-red-800">Logout</button>
           </div>
         </div>
       </div>
+      <input type="file" accept="image/*" onChange={(e) => updateProfilePic(e.target.files[0])} className="hidden" />
     </div>
   )
 }

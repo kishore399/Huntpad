@@ -16,7 +16,10 @@
 
 @layer components {
   .bn-editor {
-    @apply dark:!bg-slate-800 !bg-stone-50;
+    @apply !bg-stone-50;
+  }
+  .dark .bn-editor {
+    @apply !bg-slate-800;
   }
 }
 
