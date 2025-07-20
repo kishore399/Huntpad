@@ -17,7 +17,11 @@ export const useAppStore = create((set,get) => ({
     selectedContent: [],
     defaultEmptyNote: {
         title: "Untitled",
-        content: "type '/' for commands"
+        content: [{ id: "init-block", type: "paragraph", content: [{ type: "text", text: "" }] }],
+    },
+
+    setSelectedNotesId: (id) => {
+        set({ selectedNotesId: id })
     },
 
     updateContent: async (newContent) => {
@@ -74,19 +78,19 @@ export const useAppStore = create((set,get) => ({
     getContent : async (id) => {
         set({ selectedNotesId: id, isLoading: true })
         try {
-            const res = await axios.get(Notes_URL);
-            set((s) => ({ isLoading: false, selectedContent: res.data?.content || s.selectedContent }));  
-            console.log(res.data);     
+            const res = await axios.get(`${Notes_URL}/${id}`);
+            set((s) => ({ isLoading: false, selectedContent: res.data?.content || s.selectedContent }));      
         } catch (err) {
             set({ error: err.response?.data?.message || "Error fetching Note's content", isLoading: false });
         }
     },
 
-    createNote : async () => {
+    createNote : async (Navigate) => {
         try {
             const { notes, defaultEmptyNote } = get();
             const res = await axios.post(Notes_URL, defaultEmptyNote);
-            set({ notes : [...notes, res.data] });
+            set({ notes : [...notes, res.data], selectedNotesId: res.data._id, selectedContent: res.data.content });
+            Navigate?.(res.data._id);
             console.log(res.data);     
         } catch (err) {
             set({ error: err.response?.data?.message || "Error creating notes", isLoading: false });

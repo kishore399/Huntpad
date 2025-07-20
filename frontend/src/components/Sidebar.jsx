@@ -1,5 +1,5 @@
 import NotesList from "./NotesList";
-import { useState } from "react";
+import { useNavigate } from "react-router";
 import { ChevronsRight, ChevronsLeft, Search, Plus, CirclePlus } from "lucide-react";
 import { useAppStore } from "../store/appStore";
 import { useAuthStore } from "../store/authStore";
@@ -9,10 +9,12 @@ const Sidebar = ({ handleProfileClick }) => {
   const isCollapsed = useAppStore((s) => s.isCollapsed);
   const setIsCollapsed = useAppStore((s) => s.setIsCollapsed);
   const user = useAuthStore((s) => s.user);
-  const createNote = useAppStore((s) => s.createNote)
+  const createNote = useAppStore((s) => s.createNote);
+
+  const navigate = useNavigate();
 
   const createPage = async () => {
-    await createNote();
+    await createNote((id) => navigate(`/notes/${id}`));
   }
 
   return (

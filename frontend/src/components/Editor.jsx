@@ -1,5 +1,6 @@
 import { useAppStore } from "../store/appStore";
 import { useRef, useEffect } from "react";
+import { useParams } from "react-router";
 import { useHotkeys } from "react-hotkeys-hook";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
@@ -14,8 +15,21 @@ const Editor = () => {
   const updateTitle = useAppStore((s) => s.updateTitle);
   const saveTitle = useAppStore((s) => s.saveTitle);
   const getContent = useAppStore((s) => s.getContent);
+  const setSelectedNotesId = useAppStore((s) => s.setSelectedNotesId);
+  const isDark = useAppStore((s) => s.isDark);
 
   const titleref = useRef(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    console.log(selectedContent, "selectedContent in Editor");
+  }, [selectedContent]);
+
+  useEffect(() => {
+    if (id && id != selectedNotesId) {
+      setSelectedNotesId(id);
+    }
+  },[id, selectedNotesId, setSelectedNotesId]);
 
   useEffect(() => {
     if (titleref.current && titleref.current.innerText !== title){
@@ -26,19 +40,13 @@ const Editor = () => {
       if (selectedNotesId) {
         console.log("Loading note with ID:", selectedNotesId);
         await getContent(selectedNotesId);
-        editor.replaceContent(
-          selectedContent.length ? selectedContent : [{
-            id: "init-block",
-            type: "paragraph",
-            content: [{ type: "text", text: "" }],
-          }]
-        );
+        console.log("Note content loaded:", selectedContent);
       }
     }
     loadNote();
   },[selectedNotesId])
 
-  const title = notes.find((note) => note._id === selectedNotesId)?.title || "Untitled";
+  const title = notes.find((note) => note._id === selectedNotesId)?.title || selectedNotesId;
 
   const onTitleChange = () => {
     const newTitle = titleref.current.innerText;
@@ -50,9 +58,27 @@ const Editor = () => {
     titleref.current.blur();
   }
 
-  const editor = useCreateBlockNote({
+  const  NoteEditor = ({blocks, noteId}) => {
 
-  });
+    console.log("From NoteEditor");
+
+    const editor = useCreateBlockNote({
+      initialContent: blocks.length > 0 ? blocks : [{
+        id: noteId,
+        type: "paragraph",
+        content: [{ type: "text", text: "" }]
+      }],
+    });
+
+    return (
+      <BlockNoteView 
+        key={noteId || "default-editor"}
+        editor={editor} 
+        theme={isDark ? "dark" : "light"} 
+      />
+    )
+
+  }
 
   return (
     <div>
@@ -65,7 +91,7 @@ const Editor = () => {
         className="text-6xl font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t"
       />
       <div className="h-full w-full">
-        <BlockNoteView editor={editor} />
+       <NoteEditor blocks={Array.isArray(selectedContent)? selectedContent: []} noteId={selectedNotesId} />
       </div>
     </div>
   )
