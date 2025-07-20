@@ -1,6 +1,7 @@
 import { useAuthStore } from "../store/authStore";
 import { User, Mail, CalendarClock } from "lucide-react";
 import { useRef } from "react";
+import { formatDate } from "../utils/dateFormatter";
 
 const ProfilePage = ({close}) => {
     
@@ -9,6 +10,9 @@ const ProfilePage = ({close}) => {
   const logout = useAuthStore((s) => s.logout);
 
   const inputRef = useRef(null);
+
+  const time = formatDate(user.createdAt);
+  const date = time.split(",")[0];
 
   const handleLogout = async () => {
     try {
@@ -67,7 +71,7 @@ const ProfilePage = ({close}) => {
               <CalendarClock className="scale-90"/>
             <h1>Member Since</h1>
             </div>
-            <h1>{user.createdAt}</h1>
+            <h1 title={time}>{date}</h1>
           </div>
           <div className="flex gap-2 justify-end mt-3">
             <button onClick={handleLogout} className="dark:bg-red-700 bg-red-500 font-semibold p-2 px-6 rounded-lg m-2 mx-6 cursor-pointer text-stone-50 hover:scale-105 hover:bg-red-600 dark:hover:bg-red-800">Logout</button>

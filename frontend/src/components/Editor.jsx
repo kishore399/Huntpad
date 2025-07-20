@@ -106,7 +106,7 @@ const Editor = () => {
         spellCheck={false}
         onInput={onTitleChange}
         onBlur={onTitleBlur}
-        className="text-6xl font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t"
+        className="text-6xl text-gray-800 dark:text-white font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t"
       />
       <div className="h-full w-full">
        <NoteEditor blocks={Array.isArray(selectedContent)? selectedContent: []} noteId={selectedNotesId} />
