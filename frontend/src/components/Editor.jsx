@@ -5,7 +5,16 @@ import { useHotkeys } from "react-hotkeys-hook";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
-import { useCreateBlockNote } from "@blocknote/react";
+import { useCreateBlockNote, getDefaultReactSlashMenuItems, SuggestionMenuController } from "@blocknote/react";
+
+const MediaKeys = ["image", "video", "audio", "file"];
+
+const customSlashMenuItems = (editor) => {
+  console.log("Custom slash menu items:", getDefaultReactSlashMenuItems(editor));
+    return getDefaultReactSlashMenuItems(editor).filter((items) => (
+        !MediaKeys.includes(items.key)
+    ))
+}
 
 const Editor = () => {
 
@@ -70,12 +79,21 @@ const Editor = () => {
       }],
     });
 
+    const slashItems = customSlashMenuItems(editor);
+    console.log("Slash menu items:", slashItems);
+
     return (
       <BlockNoteView 
         key={noteId || "default-editor"}
         editor={editor} 
+        slashMenu={false}
         theme={isDark ? "dark" : "light"} 
-      />
+      >
+        <SuggestionMenuController
+        triggerCharacter={"/"}
+        getItems={async() => slashItems}
+        />
+      </BlockNoteView>
     )
 
   }
