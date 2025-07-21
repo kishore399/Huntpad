@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { ChevronsRight, ChevronsLeft, Search, Plus, CirclePlus } from "lucide-react";
 import { useAppStore } from "../store/appStore";
 import { useAuthStore } from "../store/authStore";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const Sidebar = ({ handleProfileClick }) => {
 
@@ -12,6 +13,16 @@ const Sidebar = ({ handleProfileClick }) => {
   const createNote = useAppStore((s) => s.createNote);
 
   const navigate = useNavigate();
+
+  useHotkeys("ctrl+k, meta+k",() => {
+    console.log("searching");
+    },
+    {
+      enableOnFormTags: true,
+      preventDefault: true,
+      enableOnContentEditable: true,
+    },
+  );
 
   const createPage = async () => {
     await createNote((id) => navigate(`/notes/${id}`));

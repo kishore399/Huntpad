@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Navigate, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
@@ -48,7 +49,7 @@ const App = () => {
 
   const isCheckingAuth = useAuthStore((s) => s.isCheckingAuth);
   const checkAuth = useAuthStore((s) => s.checkAuth);
-  const setIsDark = useAppStore((s) => s.setIsDark)
+  const setIsDark = useAppStore((s) => s.setIsDark);
 
   useEffect(() => {
     checkAuth();

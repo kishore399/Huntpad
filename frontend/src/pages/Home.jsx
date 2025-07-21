@@ -4,6 +4,7 @@ import { Outlet, useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import ProfilePage from "./ProfilePage";
 import { useAppStore } from "../store/appStore";
+import { useHotkeys } from "react-hotkeys-hook";
 
 
 const Home = () => {
@@ -11,7 +12,6 @@ const Home = () => {
   const [showProfile, setShowProfile] = useState(false);
   const getNotes = useAppStore((s) => s.getNotes);
   const notes = useAppStore((s) => s.notes);
-  const selectedNotesId = useAppStore((s) => s.selectedNotesId);
 
   const navigate = useNavigate();
   const { id } = useParams();

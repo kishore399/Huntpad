@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import { deleteNote, pinNote } from "../../../backend/controllers/notes.controller";
 
 const Notes_URL = "http://localhost:5000/api/notes";
 axios.defaults.withCredentials = true;
@@ -24,11 +23,17 @@ export const useAppStore = create((set,get) => ({
         set({ selectedNotesId: id })
     },
 
-    updateContent: async (newContent) => {
-        set({ selectedContent: newContent })
+    updateContent: async (content) => {
+        set({ selectedContent: content });
+        const noteId = get().selectedNotesId;
+        if (!noteId) {
+            console.log("No note ID provided for updateContent");
+            return;
+        }
+        console.log("Updating content for note ID:", noteId);
         try {
-            const res = await axios.put(`${Notes_URL}/${id}`, content);
-            console.log(res.data);     
+            const res = await axios.put(`${Notes_URL}/${noteId}`, { content });
+            console.log("updated data",res.data);     
         } catch (err) {
             set({ error: err.response?.data?.message || "Error updating notes", isLoading: false });           
         }

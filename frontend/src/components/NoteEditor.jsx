@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import {
   useCreateBlockNote,
   getDefaultReactSlashMenuItems,
@@ -21,24 +22,38 @@ const NoteEditor = ({ blocks, noteId }) => {
   const isDark = useAppStore((s) => s.isDark);
   const updateContent = useAppStore((s) => s.updateContent);
 
+  
   const editor = useCreateBlockNote(
     {
       initialContent:
-        blocks && blocks.length > 0
-          ? blocks
-          : [
-              {
-                id: noteId,
-                type: "paragraph",
-                content: [{ type: "text", text: "" }],
-              },
-            ],
+      blocks && blocks.length > 0
+      ? blocks
+      : [
+        {
+          id: noteId,
+          type: "paragraph",
+          content: [{ type: "text", text: "" }],
+        },
+      ],
     },
     [noteId] 
   );
-
-console.log("NoteEditor initialized with blocks:");
+  
+  console.log("NoteEditor initialized with blocks:");
   const slashItems = customSlashMenuItems(editor);
+  
+  useHotkeys("ctrl+s, meta+s",async () => {
+    const content = editor.document;
+    await updateContent(content);
+    console.log("Content saved:", content);
+    },
+    {
+      enableOnFormTags: true,
+      preventDefault: true,
+      enableOnContentEditable: true,
+    },
+    [noteId, editor]
+  );
 
   return (
     <BlockNoteView
