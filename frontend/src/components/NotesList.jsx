@@ -8,6 +8,7 @@ const NotesList = () => {
   const getContent = useAppStore((s) => s.getContent);
   const deleteNote = useAppStore((s) => s.deleteNote);
   const pinNote = useAppStore((s) => s.pinNote);
+  const selectedNotesId = useAppStore((s) => s.selectedNotesId);
 
   const navigate = useNavigate();
 
@@ -18,6 +19,9 @@ const NotesList = () => {
   }
 
   const handleDelete  = async(id) => {
+    if (id === selectedNotesId) {
+      navigate("/");
+    }
     await deleteNote(id);
     console.log(id);
   }

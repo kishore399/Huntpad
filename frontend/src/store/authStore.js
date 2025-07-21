@@ -90,7 +90,8 @@ export const useAuthStore = create((set, get) => ({
     updateProfilePic : async (profilePic) => {
         set({ isLoading: true, error: null });
         try {
-            const res = await axios.put("http://localhost:5000/api/auth/profilePic",{ profilePic });
+            console.log("Updating profile picture:", profilePic);
+            const res = await axios.put(`${Auth_URL}/profile`,{ profilePic });
             set({user: res.data.userInfo, isLoading: false});
             console.log("Profile picture updated successfully:", res.data);
         } catch(err) {

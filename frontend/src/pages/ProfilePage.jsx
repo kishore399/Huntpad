@@ -28,15 +28,18 @@ const ProfilePage = ({close}) => {
     inputRef.current.click();
   }
 
-  const handleProfilePicChange = (e) => {
-    console.log("Profile picture changed:", e.target.files[0]);
+  const handleProfilePicChange = async (e) => {
+    console.log("Profile picture changed:");
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        updateProfilePic(reader.result);
-      };
       reader.readAsDataURL(file);
+
+      reader.onloadend = async () => {
+        const base64img = reader.result;
+        console.log("Base64 Image:", base64img);
+        await updateProfilePic(reader.result);
+      };
     }
   }
 

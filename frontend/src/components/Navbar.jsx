@@ -11,7 +11,7 @@ const Navbar = () => {
   const notes = useAppStore((s) => s.notes);
   const selectedNotesId = useAppStore((s) => s.selectedNotesId);
 
-  const title = notes.find((note) => note._id === selectedNotesId)?.title || "Untitled";
+  const title = notes.find((note) => note._id === selectedNotesId)?.title || "Welcome To HuntPad";
  
   const toggleTheme = () => {
   const isDarkNow = document.documentElement.classList.toggle("dark");

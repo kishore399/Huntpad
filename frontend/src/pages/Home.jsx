@@ -1,6 +1,6 @@
 import NoteCard from "../components/NoteCard";
 import Sidebar from "../components/Sidebar";
-import { Outlet } from "react-router";
+import { Outlet, useNavigate, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import ProfilePage from "./ProfilePage";
 import { useAppStore } from "../store/appStore";
@@ -10,6 +10,11 @@ const Home = () => {
 
   const [showProfile, setShowProfile] = useState(false);
   const getNotes = useAppStore((s) => s.getNotes);
+  const notes = useAppStore((s) => s.notes);
+  const selectedNotesId = useAppStore((s) => s.selectedNotesId);
+
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -17,6 +22,15 @@ const Home = () => {
     }
     fetchNotes();
   }, [])
+
+  useEffect(() => {
+    if (id) {
+      const note = notes.find(n => n._id === id);
+      if(!note){
+        navigate("/404");
+      }
+    }
+  },[id]);
 
   return (
     <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-50 dark:bg-zinc-900 t">
