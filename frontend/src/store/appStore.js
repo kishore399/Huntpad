@@ -10,6 +10,7 @@ export const useAppStore = create((set,get) => ({
     isCollapsed: false,
     setIsCollapsed: () => set((s) => ({isCollapsed : !s.isCollapsed})),
     isLoading: false,
+    isGettingNotes: true,
     error: null,
     notes: [],
     selectedNotesId: null,
@@ -68,22 +69,23 @@ export const useAppStore = create((set,get) => ({
     },
 
     getNotes : async () => {
-        set({ isLoading: true })
+        set({ isGettingNotes: true })
         console.log("fetching notes")
         try {
             const res = await axios.get(Notes_URL);
-            set({ isLoading: false, notes: res.data });  
+            set({ isGettingNotes: false, notes: res.data });  
             console.log(res.data,"at last");     
         } catch (err) {
             console.log(err.response?.data?.message || "error")
-            set({ error: err.response?.data?.message || "Error fetching Notes metadata", isLoading: false });
+            set({ error: err.response?.data?.message || "Error fetching Notes metadata", isGettingNotes: false });
         }
     },
 
     getContent : async (id) => {
-        set({ selectedNotesId: id, isLoading: true })
+        set({ isLoading: true })
         try {
             const res = await axios.get(`${Notes_URL}/${id}`);
+            console.log("Content fetched successfully:", res.data?.content);
             set((s) => ({ isLoading: false, selectedContent: res.data?.content || s.selectedContent }));      
         } catch (err) {
             set({ error: err.response?.data?.message || "Error fetching Note's content", isLoading: false });

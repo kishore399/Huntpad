@@ -21,6 +21,7 @@ const customSlashMenuItems = (editor) => {
 const NoteEditor = ({ blocks, noteId }) => {
   const isDark = useAppStore((s) => s.isDark);
   const updateContent = useAppStore((s) => s.updateContent);
+  const selectedContent = useAppStore((s) => s.selectedContent);
 
   
   const editor = useCreateBlockNote(
@@ -54,6 +55,14 @@ const NoteEditor = ({ blocks, noteId }) => {
     },
     [noteId, editor]
   );
+
+  useEffect(() => {
+    console.log("editor changed editor changed editor changed");
+  },[editor]);
+
+  useEffect(() => {
+    console.log("selectedContent changed selectedContent changed");
+  },[selectedContent]);
 
   return (
     <BlockNoteView

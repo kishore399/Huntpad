@@ -23,6 +23,8 @@ const Editor = () => {
   const titleref = useRef(null);
   const { id } = useParams();
 
+  const title = notes.find((note) => note._id === selectedNotesId)?.title || "Loading...";
+  
   useEffect(() => {
     console.log(selectedContent, "selectedContent in Editor");
   }, [selectedContent]);
@@ -34,10 +36,6 @@ const Editor = () => {
   },[id, selectedNotesId, setSelectedNotesId]);
 
   useEffect(() => {
-    if (titleref.current && titleref.current.innerText !== title){
-      titleref.current.innerText = title
-    }
-
     const loadNote = async () => {
       if (selectedNotesId) {
         console.log("Loading note with ID:", selectedNotesId);
@@ -47,8 +45,12 @@ const Editor = () => {
     }
     loadNote();
   },[selectedNotesId])
-
-  const title = notes.find((note) => note._id === selectedNotesId)?.title || selectedNotesId;
+  
+  useEffect(() => {
+    if (titleref.current && titleref.current.innerText !== title){
+      titleref.current.innerText = title
+    }
+  },[selectedNotesId, title]);
 
   const onTitleChange = () => {
     const newTitle = titleref.current.innerText;
@@ -71,7 +73,7 @@ const Editor = () => {
         className="text-6xl text-gray-800 dark:text-white font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t"
       />
       <div className="h-full w-full">
-       <NoteEditor key={selectedNotesId} blocks={Array.isArray(selectedContent)? selectedContent: []} noteId={selectedNotesId} />
+       <NoteEditor key={selectedNotesId} blocks={selectedContent} noteId={selectedNotesId} />
       </div>
     </div>
   )

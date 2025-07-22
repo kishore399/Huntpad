@@ -12,6 +12,7 @@ const Home = () => {
   const [showProfile, setShowProfile] = useState(false);
   const getNotes = useAppStore((s) => s.getNotes);
   const notes = useAppStore((s) => s.notes);
+  const isGettingNotes = useAppStore((s) => s.isGettingNotes);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -24,13 +25,16 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
+    if (isGettingNotes) {
+      return;
+    }
     if (id) {
       const note = notes.find(n => n._id === id);
       if(!note){
         navigate("/404");
       }
     }
-  },[id]);
+  },[id, isGettingNotes]);
 
   return (
     <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-50 dark:bg-zinc-900 t">

@@ -50,7 +50,7 @@ const ProfilePage = ({close}) => {
           <div className="flex flex-col justify-center items-center">
             <h1 className="m-2 text-3xl wor font-bold">Profile</h1>
             <h1 className="font-semibold text-md">Your Profile Information</h1>
-            <div onClick={handleProfilePicClick} className={`size-32 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]`: "bg-[url('/avatar.jpg')]"} bg-cover bg-center cursor-pointer m-4`}></div>
+            <div onClick={handleProfilePicClick} className={`size-32 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]`: "bg-[url('/avatar.png')]"} bg-cover bg-center cursor-pointer m-4`}></div>
             <h1 className="text-sm">Click to update your profile picture</h1>
           </div>
           <div className="mt-3 dark:text-stone-50">
