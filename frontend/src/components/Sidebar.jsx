@@ -5,7 +5,7 @@ import { useAppStore } from "../store/appStore";
 import { useAuthStore } from "../store/authStore";
 import { useHotkeys } from "react-hotkeys-hook";
 
-const Sidebar = ({ handleProfileClick }) => {
+const Sidebar = ({ handleProfileClick, handleSearch }) => {
 
   const isCollapsed = useAppStore((s) => s.isCollapsed);
   const setIsCollapsed = useAppStore((s) => s.setIsCollapsed);
@@ -33,14 +33,14 @@ const Sidebar = ({ handleProfileClick }) => {
         <div>
           <div className="bg-slate-300 rounded-lg my-2 mx-1 p-2 dark:text-white dark:bg-slate-800 t flex items-center justify-between cursor-pointer">
             <div onClick={handleProfileClick} className="flex justify-center items-center gap-2 overflow-hidden pr-2">
-              <div className={`w-7 h-7 m-0.5 shrink-0 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]` : "bg-[url('/avatar.png')]" } bg-cover bg-center bg-no-repeat`}></div>
+              <div className={`w-7 h-7 m-0.5C shrink-0 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]` : "bg-[url('/avatar.png')]" } bg-cover bg-center bg-no-repeat`}></div>
               <p className="truncate sm:max-w-[90px] ">{user.fullName}</p>
             </div>
             <ChevronsLeft onClick={setIsCollapsed} className="hover:scale-110 shrink-0" />
           </div>
         </div>
         <div className="space-y-2 ml-2">
-          <div className="">
+          <div onClick={handleSearch} className="">
             <Search className="scale-75 inline mr-2" />
             Search
           </div>
