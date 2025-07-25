@@ -65,7 +65,7 @@ const Home = () => {
   );
 
   return (
-    <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-50 dark:bg-zinc-900 t">
+    <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-100 dark:bg-zinc-900 t">
       <div className="flex flex-col overflow-y-auto t">
         <div className="flex">
           <Sidebar 

@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useAppStore } from "../store/appStore";
 import { useNavigate } from "react-router";
+import { Search } from "lucide-react";
 
 const FilteredList = ({Notes, close}) => {
 
@@ -38,11 +39,11 @@ const SearchBar = ({close}) => {
     },[searchTerm, notes]);
 
   return (
-    <div onClick={close} className="absolute z-30 inset-0 flex justify-center items-center backdrop-blur-xs p-4 cursor-default t">
-        <div onClick={(e) => e.stopPropagation()} className=" bg-slate-300 dark:bg-gray-800 dark:text-stone-100 rounded-lg shadow-lg shadow-slate-700 flex flex-col justify-center items-center gap-2">
-            <div className="p-4 w-96 sm:w-[500px] sm:my-10">
+    <div onClick={close} className="absolute z-30 inset-0 flex justify-center items-center backdrop-blur-sm p-4 cursor-default t">
+        <div onClick={(e) => e.stopPropagation()} className=" bg-slate-300 dark:bg-gray-800 dark:text-stone-100 rounded-3xl shadow-lg shadow-slate-700 t flex flex-col justify-center items-center gap-2 hover:translate-y-[-4px]">
+            <div className="p-4 w-96 sm:w-[500px]">
                 <div className="flex flex-col justify-center items-center">
-                    <h1 className="m-2 text-3xl font-bold">Search</h1>
+                    <h1 className="m-2 text-3xl font-bold flex justify-center items-center gap-2"><Search className="size-7"/>Search</h1>
                     <h1 className="font-semibold text-md">Find your notes quickly</h1>
                 </div>
                 <div className="flex justify-center items-center gap-2">

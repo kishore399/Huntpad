@@ -15,6 +15,7 @@ import { useAppStore } from "./store/appStore";
 import Editor from "./components/Editor";
 import WelcomePage from "./pages/WelcomePage";
 import NoteNotFound from "./pages/404Editor";
+import Preview from "./pages/Preview";
  
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -77,6 +78,12 @@ const App = () => {
         <Route path="/404" element={<NoteNotFound />} />
         <Route path="/notes/:id" element={<Editor />} />
       </Route>
+      <Route 
+        path="/preview/:pid" 
+        element={
+            <Preview />
+        }
+      />
       <Route 
         path="/login" 
         element={

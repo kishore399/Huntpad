@@ -2,7 +2,7 @@ import { Moon, Sun, Menu } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
 import { useState, useEffect } from 'react';
 
-const Navbar = () => {
+const Navbar = ({isPreview = false}) => {
 
   const isDark = useAppStore((s) => s.isDark);
   const setIsDark = useAppStore((s) => s.setIsDark);
@@ -31,7 +31,7 @@ const Navbar = () => {
               <div className="font-semibold text-xl rounded-lg px-4 py-1 ml-2 truncate max-w-48 t">{title}</div>
             </div>
             <div className="flex items-center justify-center gap-4">
-              <button onClick={handlePublish} className="font-semibold text-sm bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full hover:ring-1 hover:ring-slate-700 dark:hover:ring-slate-300 cursor-pointer t">Publish</button>
+              <button onClick={handlePublish} className={`font-semibold text-sm bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full ${isPreview ? "hidden": ""} hover:ring-1 hover:ring-slate-700 dark:hover:ring-slate-300 cursor-pointer t`}>Publish</button>
               <nav onClick={toggleTheme} className="relative mr-5 rounded-full w-14 h-7 bg-slate-100 dark:bg-slate-900 cursor-pointer t">
                 {isDark ? <Moon className="absolute right-0.5 top-0.5 bg-slate-900 text-slate-200 rounded-full p-1 scale-100"/> : <Sun className="absolute left-0.5 top-0.5 bg-slate-200 text-slate-900 rounded-full p-1 scale-100" /> }
               </nav>

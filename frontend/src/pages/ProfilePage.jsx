@@ -44,9 +44,9 @@ const ProfilePage = ({close}) => {
   }
 
   return (
-    <div onClick={close} className="absolute z-20 inset-0 flex justify-center items-center backdrop-blur-xs p-4 cursor-default t">
-      <div onClick={(e) => e.stopPropagation()} className=" bg-slate-300 shadow-lg shadow-slate-700 dark:bg-gray-800 dark:text-stone-100 rounded-lg flex flex-col justify-center items-center gap-2">
-        <div className="p-4 w-96 sm:w-[500px] sm:my-10">
+    <div onClick={close} className="absolute z-20 inset-0 flex justify-center items-center backdrop-blur-sm p-4 cursor-default t">
+      <div onClick={(e) => e.stopPropagation()} className=" bg-slate-300 shadow-lg shadow-slate-700 dark:bg-gray-800 dark:text-stone-100 rounded-3xl flex flex-col justify-center items-center gap-2 t hover:translate-y-[-4px]">
+        <div className="p-4 w-96 sm:w-[500px]">
           <div className="flex flex-col justify-center items-center">
             <h1 className="m-2 text-3xl wor font-bold">Profile</h1>
             <h1 className="font-semibold text-md">Your Profile Information</h1>
