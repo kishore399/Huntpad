@@ -21,6 +21,10 @@ const noteSchema = new mongoose.Schema(
         isPublished : {
             type : Boolean,
             default : false
+        },
+        cover : {
+            type : String,
+            required : false
         }
     }, 
     { 
