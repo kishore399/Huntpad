@@ -35,7 +35,7 @@ const Preview = () => {
     <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-100 dark:bg-zinc-900 t">
       <div className="flex flex-col overflow-y-auto h-full t">
         <main className="flex-1 bg-neutral-100  min-h-screen dark:bg-slate-800 dark:text-slate-100 box-border overflow-auto w-screen t">
-          <Navbar isPreview={true} />
+          <Navbar />
           <div className="h-44 bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center rounded-lg" />
           <div className="h-full w-full">
             <PreviewContent />

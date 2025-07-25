@@ -63,14 +63,14 @@ const Editor = () => {
   }
 
   return (
-    <div>
+    <div className="sm:mx-5 md:mx-8 lg:mx-16">
       <div 
         ref={titleref}
         contentEditable={true}
         spellCheck={false}
         onInput={onTitleChange}
         onBlur={onTitleBlur}
-        className="text-6xl text-gray-800 dark:text-white font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t"
+        className="text-6xl text-gray-800 leading-tight dark:text-white font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t"
       />
       <div className="h-full w-full">
        <NoteEditor key={selectedNotesId} blocks={selectedContent} noteId={selectedNotesId} />

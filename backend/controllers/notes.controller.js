@@ -144,6 +144,22 @@ export const pinNote = async (req,res) => {
     }
 }
 
+export const publishNote = async (req, res) => {
+    try {
+        const noteId = req.params.id;
+        const note = await Note.findById(noteId);
+        if (!note) {
+            return res.status(404).json({ message: "Note not found" });
+        }
+        note.isPublished = !note.isPublished;
+        await note.save();
+        return res.status(200).json("Published");
+    } catch (err) {
+        console.log("Error in publishNote controller", err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 export const getPreview = async (req, res) => {
     try {
         const noteId = req.params.id;

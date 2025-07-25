@@ -127,6 +127,22 @@ export const useAppStore = create((set,get) => ({
         }
     },
 
+    publishNote: async (id) => {
+        set({ isLoading: true })
+        try {
+            const res = await axios.put(`${Notes_URL}/publish/${id}`);
+            set((s) => ({ 
+                notes: s.notes.map((note) => 
+                    note._id === id ? { ...note, isPublished: !note.isPublished } : note
+                ),
+                isLoading: false
+            }));
+            console.log("Note published successfully:", res.data);
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error publishing note", isLoading: false });
+        }
+    },
+
     getPreview: async (id) => {
         set({ isLoading: true })
         try {
