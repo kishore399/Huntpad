@@ -19,6 +19,7 @@ export const useAppStore = create((set,get) => ({
         title: "Untitled",
         content: [{ id: "init-block", type: "paragraph", content: [{ type: "text", text: "" }] }],
     },
+    preview: null,
 
     setSelectedNotesId: (id) => {
         set({ selectedNotesId: id })
@@ -123,6 +124,17 @@ export const useAppStore = create((set,get) => ({
             console.log("Pin",res.data);
         } catch (err) {
             set({ error: err.response?.data?.message || "Error pinning note", isLoading: false });
+        }
+    },
+
+    getPreview: async (id) => {
+        set({ isLoading: true })
+        try {
+            const res = await axios.get(`${Notes_URL}/preview/${id}`);
+            set({ isLoading: false, preview: res.data });
+            console.log("Preview fetched successfully:", res.data);
+        } catch (err) {
+            set({ error: err.response?.data?.message || "Error fetching preview", isLoading: false });
         }
     },
 }))

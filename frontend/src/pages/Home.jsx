@@ -33,7 +33,7 @@ const Home = () => {
     if (id) {
       const note = notes.find(n => n._id === id);
       if(!note){
-        navigate("/404");
+        navigate("/home/404");
       }
     }
   },[id, isGettingNotes]);

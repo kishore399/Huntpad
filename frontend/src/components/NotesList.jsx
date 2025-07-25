@@ -12,16 +12,18 @@ const NotesList = () => {
 
   const navigate = useNavigate();
 
-  const handlePin = async(id) => {
+  const handlePin = async(id,e) => {
+    e.stopPropagation();
     console.log("from pin", id);
     await pinNote(id);
     console.log("Pin");
   }
 
-  const handleDelete  = async(id) => {
+  const handleDelete  = async(id,e) => {
+    e.stopPropagation();
     await deleteNote(id);
     if (id === selectedNotesId) {
-      navigate("/");
+      navigate("/home");
     }
     console.log(id);
   }
@@ -29,7 +31,7 @@ const NotesList = () => {
   const loadNote = async(id) => {
     await getContent(id);
     console.log(id)
-    navigate(`/notes/${id}`)
+    navigate(`/home/notes/${id}`)
   }
 
   return (
@@ -38,8 +40,8 @@ const NotesList = () => {
         <div key={note?._id} onClick={() => loadNote(note._id)} className="group flex items-center justify-between hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg px-2 py-1 t">
           <div className="text-[16px] w-full truncate">{note?.title}</div>
           <div className="flex scale-75 gap-3 max-sm:gap-5 dark:text-slate-300 opacity-0 max-md:opacity-100 t group-hover:opacity-100 shrink-0">
-            <div onClick={() => handlePin(note._id)} className="hover:scale-105">{note.isPinned ? <PinOff /> : <Pin />}</div>
-            <div onClick={() => handleDelete(note._id)} className="hover:scale-105"><Trash2 /></div>
+            <div onClick={(e) => handlePin(note._id,e)} className="hover:scale-105">{note.isPinned ? <PinOff /> : <Pin />}</div>
+            <div onClick={(e) => handleDelete(note._id,e)} className="hover:scale-105"><Trash2 /></div>
           </div>
         </div>
       ))}

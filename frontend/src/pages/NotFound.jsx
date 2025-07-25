@@ -9,7 +9,7 @@ const NotFound = () => {
             <p className="text-center w-full mx-2">You seem lost in the woods...</p>
             <p className="text-center w-full mx-2">The Page You're looking for doesn't exist.</p>
         </div>
-        <button onClick={() => navigate("/")} className="bg-violet-600 rounded-full px-8 py-4 m-12 font-bold cursor-pointer hover:bg-violet-700 hover:scale-105">Back to Home</button>
+        <button onClick={() => navigate("/home")} className="bg-violet-600 rounded-full px-8 py-4 m-12 font-bold cursor-pointer hover:bg-violet-700 hover:scale-105">Back to Home</button>
     </div>
   )
 }

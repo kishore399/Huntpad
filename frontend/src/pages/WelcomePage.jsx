@@ -8,7 +8,7 @@ const WelcomePage = () => {
     const navigate = useNavigate();
 
     const createPage = async () => {
-      await createNote((id) => navigate(`/notes/${id}`));
+      await createNote((id) => navigate(`/home/notes/${id}`));
     }
 
     return (

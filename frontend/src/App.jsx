@@ -37,7 +37,7 @@ const RedirectVerifiedUser = ({ children }) => {
   const user = useAuthStore((s) => s.user);
 
   if (isAuthenticated && user?.isVerified) {
-    return <Navigate to="/" replace />
+    return <Navigate to="/home" replace />
   }
   if (isAuthenticated) {
     return <Navigate to="/verify-email" replace />
@@ -67,7 +67,7 @@ const App = () => {
     <div className="bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center w-screen h-screen">
     <Routes>
       <Route 
-        path="/" 
+        path="/home" 
         element={ 
           <ProtectedRoute>
             <Home />
@@ -75,14 +75,18 @@ const App = () => {
         }
       >
         <Route index element={<WelcomePage />} />
-        <Route path="/404" element={<NoteNotFound />} />
-        <Route path="/notes/:id" element={<Editor />} />
+        <Route path="/home/404" element={<NoteNotFound />} />
+        <Route path="/home/notes/:id" element={<Editor />} />
       </Route>
       <Route 
         path="/preview/:pid" 
         element={
             <Preview />
         }
+      />
+      <Route 
+        path="/" 
+        element={<Navigate to="/home" replace />}
       />
       <Route 
         path="/login" 
