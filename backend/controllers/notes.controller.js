@@ -152,9 +152,9 @@ export const getPreview = async (req, res) => {
         if (!note) {
             return res.status(404).json({ message: "Note not found" });
         }
-        // if (note.isPublished === false) {
-        //     return res.status(403).json({ message: "Unauthorized Access" });
-        // }
+        if (note.isPublished === false) {
+            return res.status(403).json({ message: "Unauthorized Access" });
+        }
         return res.status(200).json(note);
     } catch (err) {
         console.log("Error in getPreview controller", err);
