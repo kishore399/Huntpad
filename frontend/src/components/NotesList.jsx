@@ -9,6 +9,7 @@ const NotesList = () => {
   const deleteNote = useAppStore((s) => s.deleteNote);
   const pinNote = useAppStore((s) => s.pinNote);
   const selectedNotesId = useAppStore((s) => s.selectedNotesId);
+  const setIsCollapsed = useAppStore((s) => s.setIsCollapsed);
 
   const navigate = useNavigate();
 
@@ -32,6 +33,9 @@ const NotesList = () => {
     await getContent(id);
     console.log(id)
     navigate(`/home/notes/${id}`)
+    if (window.innerWidth < 640) {
+      setIsCollapsed(true);
+    }
   }
 
   return (

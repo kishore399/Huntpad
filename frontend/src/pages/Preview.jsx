@@ -1,20 +1,49 @@
 import { useState, useEffect, use } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 import Navbar from '../components/Navbar';
 import { useAppStore } from '../store/appStore';
 import NotFound from './NotFound';
+import {
+  useCreateBlockNote,
+} from "@blocknote/react";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/mantine/style.css";
 
-const PreviewContent = () => {
+const PreviewNote = ({pid}) => {
 
-    const preview = useAppStore((s) => s.preview);
+  const preview = useAppStore((s) => s.preview);
+  const isDark = useAppStore((s) => s.isDark);
+
+  const editor = useCreateBlockNote(
+    {
+      initialContent:
+        preview?.content && preview?.content?.length > 0
+        ? preview?.content
+        : [
+          {
+            id: pid,
+            type: "paragraph",
+            content: [{ type: "text", text: "" }],
+          },
+        ],
+    },
+    [pid] 
+  );
+
+  console.log("after block",preview?.content)
 
   return (
     <div className="p-4 xl:mx-7">
-      <h1 className="text-2xl font-bold mb-4">Preview Mode</h1>
-      <p>This is where you can preview your notes before publishing them.</p>
-      <h1 className="max-xl:hidden">In large mode</h1>
-      <h1>{preview?.title}</h1>
-      <p>Hi</p>
+      <div className="text-6xl text-gray-800 leading-tight dark:text-white font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t">{preview?.title}</div>
+      <div className='w-full h-full overflow-y-auto'>
+        <BlockNoteView
+          key={pid || "default-editor"}
+          editor={editor}
+          editable={false}
+          theme={isDark ? "dark" : "light"}
+        />
+      </div>
     </div>
   );
 };
@@ -22,15 +51,30 @@ const PreviewContent = () => {
 const Preview = () => {
 
     const getPreview = useAppStore((s) => s.getPreview);
+    const preview = useAppStore((s) => s.preview);
+    const [isValid, setIsValid] = useState(true);
 
     const { pid } = useParams();
+
     useEffect(() => {
         const fetchPreview = async () => {
             await getPreview(pid);
         };
         fetchPreview();
+        console.log("preview", preview)
     },[pid]);
-    
+
+    useEffect(() => {
+        if (!preview) {
+          setIsValid(false);
+        } else {
+          setIsValid(true);
+        }
+    }, [preview]);
+
+  if (!isValid) {
+    return <NotFound />;
+  }
   return (
     <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-100 dark:bg-zinc-900 t">
       <div className="flex flex-col overflow-y-auto h-full t">
@@ -38,7 +82,7 @@ const Preview = () => {
           <Navbar />
           <div className="h-44 bg-[url('/BackgroundVioletScenery.jpg')] bg-cover bg-center rounded-lg" />
           <div className="h-full w-full">
-            <PreviewContent />
+            <PreviewNote pid={pid}/>
           </div>
         </main>
       </div>

@@ -1,5 +1,6 @@
 import { Moon, Sun, Menu, Globe } from 'lucide-react';
 import { useParams } from 'react-router';
+import PublishMenu from './PublishMenu';
 import { useAppStore } from '../store/appStore';
 import { useState, useEffect } from 'react';
 
@@ -14,6 +15,7 @@ const Navbar = () => {
   const publishNote = useAppStore((s) => s.publishNote);
 
   const [showPublish, setShowPublish] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const { id } = useParams();
 
   const currNote = notes.find((note) => note._id === selectedNotesId) || {title: "Welcome to HuntPad", isPublished: false};
@@ -25,12 +27,31 @@ const Navbar = () => {
   }
 
   useEffect(() => {
+    setShowDropdown(false);
     if (id){
       setShowPublish(true);
     } else {
       setShowPublish(false);
     }
   },[id]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640 && !isCollapsed && showDropdown) {
+        setShowDropdown(false)
+        console.log("Resizing to smaller screen, hiding dropdown",isCollapsed);
+      }
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  },[isCollapsed, showDropdown]);
+
+  const handleClick = () => {
+    setShowDropdown((prev) => !prev);
+  }
  
   const handlePublish = async () => {
     if (!selectedNotesId) {
@@ -42,20 +63,25 @@ const Navbar = () => {
   }
 
   return (
-    <header className="h-11 mt-4 mr-2 text-slate-700 dark:text-stone-50 cursor-default">
+    <>
+    <header className="relative h-11 mt-4 mr-2 text-slate-700 dark:text-stone-50 cursor-default">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-between ml-3">
               <Menu onClick={setIsCollapsed} className={`${isCollapsed ? "" : "hidden"} hover:scale-110 cursor-pointer`} />
               <div className="font-semibold text-xl rounded-lg px-4 py-1 ml-2 truncate max-w-32 [@media(min-width:390px)]:max-w-48 sm:max-w-60 t">{currNote?.title}</div>
             </div>
             <div className="flex items-center justify-center gap-4">
-              <button onClick={handlePublish} className={`font-semibold text-sm flex justify-center items-center gap-2 bg-slate-200 dark:bg-slate-900 px-3 py-1 rounded-full ${showPublish ? "": "hidden"} hover:ring-1 hover:ring-slate-700 dark:hover:ring-slate-300 cursor-pointer t`}><Globe className={`${currNote?.isPublished ? "" : "hidden"} size-5 text-indigo-500`}/>Publish</button>
+              <div className='relative flex items-center justify-center gap-2'>
+                <button onClick={handleClick} className={`font-semibold text-sm flex justify-center items-center gap-2 bg-slate-200 dark:bg-slate-900 px-3 py-1 rounded-full ${showPublish ? "": "hidden"} hover:ring-1 hover:scale-y-105 hover:ring-slate-300 dark:hover:ring-slate-950 cursor-pointer t`}><Globe className={`${currNote?.isPublished ? "" : "hidden"} size-5 text-indigo-500 dark:text-sky-500`}/>Publish</button>
+                {showDropdown && <PublishMenu note={currNote} handlePublish={handlePublish}/>}
+              </div>
               <nav onClick={toggleTheme} className="relative mr-5 rounded-full w-14 h-7 bg-slate-300 dark:bg-slate-900 cursor-pointer t">
                 {isDark ? <Moon className="absolute right-0.5 top-0.5 bg-slate-900 text-slate-200 rounded-full p-1 scale-100"/> : <Sun className="absolute left-0.5 top-0.5 bg-slate-200 text-slate-900 rounded-full p-1 scale-100" /> }
               </nav>
             </div>
           </div>
     </header>
+    </>
   )
 }
 

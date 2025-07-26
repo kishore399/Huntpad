@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   useCreateBlockNote,
   getDefaultReactSlashMenuItems,
   SuggestionMenuController,
 } from "@blocknote/react";
+import { filterSuggestionItems } from "@blocknote/core";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
@@ -41,7 +42,6 @@ const NoteEditor = ({ blocks, noteId }) => {
   );
   
   console.log("NoteEditor initialized with blocks:");
-  const slashItems = customSlashMenuItems(editor);
   
   useHotkeys("ctrl+s, meta+s",async () => {
     const content = editor.document;
@@ -74,10 +74,10 @@ const NoteEditor = ({ blocks, noteId }) => {
     >
       <SuggestionMenuController
         triggerCharacter={"/"}
-        getItems={async () => slashItems}
+        getItems={async (query) => filterSuggestionItems(customSlashMenuItems(editor),query)}
       />
     </BlockNoteView>
   );
 };
 
-export default React.memo(NoteEditor);
+export default NoteEditor;

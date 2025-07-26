@@ -1,4 +1,5 @@
 import Note from "../models/notes.model.js";
+import mongoose from "mongoose";
 
 export const listNotes = async (req,res) => {
     try{
@@ -163,6 +164,10 @@ export const publishNote = async (req, res) => {
 export const getPreview = async (req, res) => {
     try {
         const noteId = req.params.id;
+
+        if (!mongoose.Types.ObjectId.isValid(noteId)) {
+          return res.status(400).json({ message: "Invalid note ID" });
+        }
 
         const note = await Note.findById(noteId).select("content title cover isPublished");
         if (!note) {
