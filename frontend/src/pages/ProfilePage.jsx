@@ -24,7 +24,6 @@ const ProfilePage = ({close}) => {
 
   const handleProfilePicClick = () => {
     console.log("Profile picture clicked");
-    inputRef.current.value = null;
     inputRef.current.click();
   }
 
@@ -50,7 +49,7 @@ const ProfilePage = ({close}) => {
           <div className="flex flex-col justify-center items-center">
             <h1 className="m-2 text-3xl wor font-bold">Profile</h1>
             <h1 className="font-semibold text-md">Your Profile Information</h1>
-            <div onClick={handleProfilePicClick} className={`size-32 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]`: "bg-[url('/avatar.png')]"} bg-cover bg-center cursor-pointer m-4`}></div>
+            <div onClick={handleProfilePicClick} className="size-32 rounded-full bg-cover bg-center cursor-pointer m-4" style={{backgroundImage: `url(${user.profilePic || "/avatar.png"})`}}/>
             <h1 className="text-sm">Click to update your profile picture</h1>
           </div>
           <div className="mt-3 dark:text-stone-50">
@@ -76,12 +75,12 @@ const ProfilePage = ({close}) => {
             </div>
             <h1 title={time}>{date}</h1>
           </div>
+          <input type="file" accept="image/*" ref={inputRef} onChange={(e) => {console.log("OnChange"); handleProfilePicChange(e);}} className="hidden" />
           <div className="flex gap-2 justify-end mt-3">
             <button onClick={handleLogout} className="dark:bg-red-700 bg-red-500 font-semibold p-2 px-6 rounded-lg m-2 mx-6 cursor-pointer text-stone-50 hover:scale-105 hover:bg-red-600 dark:hover:bg-red-800">Logout</button>
           </div>
         </div>
       </div>
-      <input type="file" accept="image/*" ref={inputRef} onChange={(e) => {console.log("OnChange"); handleProfilePicChange(e);}} className="hidden" />
     </div>
   )
 }

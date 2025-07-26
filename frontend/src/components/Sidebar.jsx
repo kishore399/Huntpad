@@ -33,7 +33,7 @@ const Sidebar = ({ handleProfileClick, handleSearch }) => {
         <div>
           <div className="bg-slate-300 rounded-lg my-2 mx-1 p-2 dark:text-white dark:bg-slate-800 t flex items-center justify-between cursor-pointer">
             <div onClick={handleProfileClick} className="flex justify-center items-center gap-2 overflow-hidden pr-2">
-              <div className={`w-7 h-7 m-0.5C shrink-0 rounded-full ${user.profilePic ? `bg-[url(${user.profilePic})]` : "bg-[url('/avatar.png')]" } bg-cover bg-center bg-no-repeat`}></div>
+              <div className="w-7 h-7 m-0.5 shrink-0 rounded-full bg-cover bg-center" style={{backgroundImage: `url(${user.profilePic || "/avatar.png"})`}}></div>
               <p className="truncate sm:max-w-[90px] ">{user.fullName}</p>
             </div>
             <ChevronsLeft onClick={setIsCollapsed} className="hover:scale-110 shrink-0" />
