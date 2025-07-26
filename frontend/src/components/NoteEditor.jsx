@@ -10,6 +10,7 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
 import { useAppStore } from "../store/appStore";
+import toast from "react-hot-toast";
 
 const MediaKeys = ["image", "video", "audio", "file"];
 
@@ -46,6 +47,7 @@ const NoteEditor = ({ blocks, noteId }) => {
   useHotkeys("ctrl+s, meta+s",async () => {
     const content = editor.document;
     await updateContent(content);
+    toast.success("Content saved successfully");
     console.log("Content saved:", content);
     },
     {

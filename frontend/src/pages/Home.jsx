@@ -12,6 +12,8 @@ const Home = () => {
 
   const [showProfile, setShowProfile] = useState(false);
   const [showSearchbar, setShowSearchbar] = useState(false);
+  const isCollapsed = useAppStore((s) => s.isCollapsed);
+  const setIsCollapsed = useAppStore((s) => s.setIsCollapsed);
   const getNotes = useAppStore((s) => s.getNotes);
   const notes = useAppStore((s) => s.notes);
   const isGettingNotes = useAppStore((s) => s.isGettingNotes);
@@ -56,6 +58,16 @@ const Home = () => {
       setShowProfile(false);
     }
     setShowSearchbar(prev => !prev);
+    },
+    {
+      enableOnFormTags: true,
+      preventDefault: true,
+      enableOnContentEditable: true,
+    },
+  );
+
+  useHotkeys("ctrl+b, meta+b", () => {
+    setIsCollapsed(prev => !prev);
     },
     {
       enableOnFormTags: true,
