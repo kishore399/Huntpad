@@ -59,16 +59,6 @@ export const useAppStore = create((set,get) => ({
         }
     },
 
-    updateProfilePic : async (profilePic) => {
-        set({ isLoading: true })
-        try {
-            const res = await axios.put("http://localhost:5000/api/auth/profilePic",{ profilePic });
-            set({ isLoading: false})
-        } catch(err) {
-            set({ error: err.response?.data?.message || "Error updating the Picture", isLoading: false });
-        }
-    },
-
     getNotes : async () => {
         set({ isGettingNotes: true })
         console.log("fetching notes")
@@ -151,6 +141,24 @@ export const useAppStore = create((set,get) => ({
             console.log("Preview fetched successfully:", res.data);
         } catch (err) {
             set({ error: err.response?.data?.message || "Error fetching preview", isLoading: false });
+        }
+    },
+
+    updateCoverPic : async (id, coverPic) => {
+        set({ isLoading: true, error: null });
+        try {
+            console.log("Updating cover picture:", coverPic);
+            set((s) => ({ 
+                notes: s.notes.map((note) => 
+                    note._id === id ? { ...note, cover: coverPic } : note
+                ),
+                isLoading: false
+            }));
+            const res = await axios.put(`${Notes_URL}/cover/${id}`,{ coverPic });
+            set({ isLoading: false });
+            console.log("Cover picture updated successfully:");
+        } catch(err) {
+            set({ error: err.response?.data?.message || "Error updating Profil Picture", isLoading: false })
         }
     },
 }))

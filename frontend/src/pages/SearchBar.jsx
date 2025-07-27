@@ -19,7 +19,7 @@ const FilteredList = ({Notes, close}) => {
   return (
     <div className="mx-1 text-lg">
       {Notes?.map((note) => (
-        <div key={note?._id} onClick={() => loadNote(note._id)} className="group flex items-center justify-between hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg px-2 py-1 t">
+        <div key={note?._id} onClick={() => loadNote(note._id)} className="group flex items-center justify-between hover:bg-slate-300 dark:hover:bg-gray-600 rounded-lg px-2 py-1 t">
           <div className="text-[16px] w-full truncate">{note?.title}</div>
         </div>
       ))}
@@ -40,7 +40,7 @@ const SearchBar = ({close}) => {
 
   return (
     <div onClick={close} className="absolute z-30 inset-0 flex justify-center items-center backdrop-blur-sm p-4 cursor-default t">
-        <div onClick={(e) => e.stopPropagation()} className=" bg-slate-300 dark:bg-gray-800 dark:text-stone-100 rounded-3xl shadow-lg shadow-slate-700 t flex flex-col justify-center items-center gap-2 hover:translate-y-[-4px]">
+        <div onClick={(e) => e.stopPropagation()} className=" bg-slate-200 dark:bg-gray-800 dark:text-stone-100 rounded-3xl shadow-lg shadow-slate-700 t flex flex-col justify-center items-center gap-2 hover:translate-y-[-4px]">
             <div className="p-4 w-96 sm:w-[500px]">
                 <div className="flex flex-col justify-center items-center">
                     <h1 className="m-2 text-3xl font-bold flex justify-center items-center gap-2"><Search className="size-7"/>Search</h1>
@@ -52,7 +52,7 @@ const SearchBar = ({close}) => {
                         placeholder="Search notes..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full p-2 rounded-lg mt-4 outline-none bg-slate-200 dark:bg-gray-700 text-slate-800 dark:text-stone-100"
+                        className="w-full p-2 rounded-lg mt-4 outline-none bg-slate-100 dark:bg-gray-700 text-slate-800 dark:text-stone-100"
                     />
                 </div>
                 <div className="flex flex-col mt-4 justify-center gap-1 ml-2">

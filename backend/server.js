@@ -13,7 +13,7 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json({
-    limit : "10mb"
+    limit : "6mb"
 }));
 
 app.use(cors({

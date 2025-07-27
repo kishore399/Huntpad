@@ -1,5 +1,5 @@
 import express from 'express';
-import { createNote, deleteNote, listNotes, getNote, updateNote, pinNote, updateTitle, getPreview, publishNote } from '../controllers/notes.controller.js';
+import { createNote, deleteNote, listNotes, getNote, updateNote, pinNote, updateTitle, getPreview, publishNote, updateCoverPic } from '../controllers/notes.controller.js';
 import { validateUser } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
@@ -21,5 +21,7 @@ router.put("/pin/:id", validateUser, pinNote);
 router.put("/publish/:id",validateUser, publishNote);
 
 router.get("/preview/:id", getPreview);
+
+router.put("/cover/:id", validateUser, updateCoverPic);
 
 export default router;

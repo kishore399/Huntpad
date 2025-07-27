@@ -1,4 +1,5 @@
 import Note from "../models/notes.model.js";
+import cloudinary from "../lib/cloudinary.js";
 import mongoose from "mongoose";
 
 export const listNotes = async (req,res) => {
@@ -179,6 +180,41 @@ export const getPreview = async (req, res) => {
         return res.status(200).json(note);
     } catch (err) {
         console.log("Error in getPreview controller", err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+export const updateCoverPic = async (req,res) => {
+    try {
+        const { coverPic } = req.body;
+        const id = req.params.id;
+        console.log("From Coverpic controller");
+        if (!coverPic) {
+            return res.status(400).json({ message : "No cover picture provided" });
+        }
+
+        // Upload Cover pic
+        const cloud = await cloudinary.uploader.upload(coverPic);
+        if (!cloud?.secure_url) {
+            return res.status(500).json({ message : "Failed to upload cover picture" });
+        }
+
+        const note = await Note.findById(id);
+        if (!note) {
+            return res.status(404).json({ message : "Note not found"})
+        }
+
+        // Delete the old one
+        if (note.cover) {
+            const isdeleted = await cloudinary.uploader.destroy(note.cover.split("/").pop().split(".")[0]);
+            console.log("Old profile pic deleted:", isdeleted);
+        }
+        note.cover = cloud.secure_url;
+        await note.save();
+
+        return res.status(200).json(note);
+    } catch (err) {
+        console.log("Error in updateProfile controller", err);
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }

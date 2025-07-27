@@ -2,6 +2,7 @@ import { useAuthStore } from "../store/authStore";
 import { User, Mail, CalendarClock } from "lucide-react";
 import { useRef } from "react";
 import { formatDate } from "../utils/dateFormatter";
+import { toast } from "react-hot-toast";
 
 const ProfilePage = ({close}) => {
     
@@ -31,6 +32,10 @@ const ProfilePage = ({close}) => {
     console.log("Profile picture changed:");
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("File size exceeds 2MB limit");
+        return;
+      }
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
@@ -75,7 +80,7 @@ const ProfilePage = ({close}) => {
             </div>
             <h1 title={time}>{date}</h1>
           </div>
-          <input type="file" accept="image/*" ref={inputRef} onChange={(e) => {console.log("OnChange"); handleProfilePicChange(e);}} className="hidden" />
+          <input type="file" accept="image/*" ref={inputRef} onChange={(e) => handleProfilePicChange(e)} className="hidden" />
           <div className="flex gap-2 justify-end mt-3">
             <button onClick={handleLogout} className="dark:bg-red-700 bg-red-500 font-semibold p-2 px-6 rounded-lg m-2 mx-6 cursor-pointer text-stone-50 hover:scale-105 hover:bg-red-600 dark:hover:bg-red-800">Logout</button>
           </div>

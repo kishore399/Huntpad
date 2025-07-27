@@ -63,7 +63,7 @@ const Editor = () => {
   }
 
   return (
-    <div className="sm:mx-5 md:mx-8 lg:mx-16">
+    <div className="sm:mx-5 md:mx-8 lg:mx-16 my-4">
       <div 
         ref={titleref}
         contentEditable={true}
