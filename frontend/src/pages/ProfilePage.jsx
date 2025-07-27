@@ -32,7 +32,7 @@ const ProfilePage = ({close}) => {
     console.log("Profile picture changed:");
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 2 * 1024 * 1024) {
+      if (file.size > 4 * 1024 * 1024) {
         toast.error("File size exceeds 2MB limit");
         return;
       }
