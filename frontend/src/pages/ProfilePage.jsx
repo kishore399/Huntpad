@@ -33,7 +33,7 @@ const ProfilePage = ({close}) => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 4 * 1024 * 1024) {
-        toast.error("File size exceeds 2MB limit");
+        toast.error("File size exceeds 4MB limit");
         return;
       }
       const reader = new FileReader();

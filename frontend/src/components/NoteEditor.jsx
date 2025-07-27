@@ -69,13 +69,18 @@ const NoteEditor = ({ blocks, noteId }) => {
     console.log("selectedContent changed selectedContent changed");
   },[selectedContent]);
 
+  const handleBlur = async () => {
+    console.log("Updating Content On blur")
+    await updateContent(editor.document)
+  };
+
   return (
     <BlockNoteView
       key={noteId || "default-editor"}
       editor={editor}
       theme={isDark ? "dark" : "light"}
       slashMenu={false}
-      onChange={() => { }}
+      onBlur={handleBlur}
     >
       <SuggestionMenuController
         triggerCharacter={"/"}
