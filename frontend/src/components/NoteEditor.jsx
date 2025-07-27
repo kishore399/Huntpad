@@ -20,27 +20,30 @@ const customSlashMenuItems = (editor) => {
   );
 };
 
+const Loader = () => {
+  return (
+    <div className="flex items-center justify-center h-full py-4">
+      <div className="flex space-x-2">
+        <div className="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+        <div className="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+        <div className="w-2.5 h-2.5 bg-gray-400 rounded-full animate-bounce" />
+      </div>
+    </div>
+  );
+};
+
 const NoteEditor = ({ blocks, noteId }) => {
+  if(!blocks || blocks?.length == 0 ) {
+    return <Loader />
+  }
+
   const isDark = useAppStore((s) => s.isDark);
   const updateContent = useAppStore((s) => s.updateContent);
   const selectedContent = useAppStore((s) => s.selectedContent);
-
   
-  const editor = useCreateBlockNote(
-    {
-      initialContent:
-      blocks && blocks.length > 0
-      ? blocks
-      : [
-        {
-          id: noteId,
-          type: "paragraph",
-          content: [{ type: "text", text: "" }],
-        },
-      ],
-    },
-    [noteId] 
-  );
+  const editor = useCreateBlockNote({
+      initialContent: blocks
+  });
   
   console.log("NoteEditor initialized with blocks:");
   

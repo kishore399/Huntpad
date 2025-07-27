@@ -23,7 +23,7 @@ const Editor = () => {
   const titleref = useRef(null);
   const { id } = useParams();
 
-  const title = notes.find((note) => note._id === selectedNotesId)?.title || "Loading...";
+  const title = notes.find((note) => note._id === selectedNotesId)?.title || "";
   
   useEffect(() => {
     console.log(selectedContent, "selectedContent in Editor");

@@ -75,6 +75,7 @@ export const useAppStore = create((set,get) => ({
     getContent : async (id) => {
         set({ isLoading: true })
         try {
+            console.log("")
             const res = await axios.get(`${Notes_URL}/${id}`);
             console.log("Content fetched successfully:", res.data?.content);
             set((s) => ({ isLoading: false, selectedContent: res.data?.content || s.selectedContent }));      

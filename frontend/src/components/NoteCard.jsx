@@ -12,6 +12,9 @@ const NoteCard = ({ children }) => {
   const updateCoverPic = useAppStore((s) => s.updateCoverPic);
   const notes = useAppStore((s) => s.notes);
 
+  const isTouchScreen = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+
+
   const [note, setNote] = useState(null);
 
   const handleClick = () => {
@@ -48,7 +51,7 @@ const NoteCard = ({ children }) => {
       <div className="group relative h-44 md:h-52 md:mb-3 lg:h-60 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${note?.cover || "/BackgroundVioletScenery.jpg"})`}}>
         <button 
           onClick={handleClick} 
-          className="absolute bottom-4 right-10 py-0.5 px-2 backdrop-blur-sm flex sm:opacity-0 sm:group-hover:opacity-100 rounded-lg hover:scale-105 t bg-slate-300/70 dark:bg-slate-800/70 text-slate-800/80 dark:text-slate-300/80 justify-center items-center gap-1"
+          className={`absolute bottom-4 right-10 py-0.5 px-2 backdrop-blur-sm flex ${isTouchScreen ? "" : "opacity-0 group-hover:opacity-100"} rounded-lg hover:scale-105 t bg-slate-300/70 dark:bg-slate-800/70 text-slate-800/80 dark:text-slate-300/80 justify-center items-center gap-1`}
         >
           <Image className="size-5"/>
           <p className="text-sm font-semibold">Change cover</p>

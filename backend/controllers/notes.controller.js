@@ -7,7 +7,6 @@ export const listNotes = async (req,res) => {
         const userId = req.user._id;
 
         const notes = await Note.find({ userId }).sort({ isPinned: -1, updatedAt: -1}).select("-content");
-        console.log(notes)
         return res.status(200).json(notes);
 
     }catch (err) {
@@ -20,6 +19,7 @@ export const getNote = async (req,res) => {
     try {
         const userId = req.user._id;
         const noteId = req.params.id
+        console.log("providing the content",noteId);
 
         const note = await Note.findById(noteId).select("content userId");
         if (!note) {
@@ -29,6 +29,7 @@ export const getNote = async (req,res) => {
         if(note.userId != userId) {
             return res.status(401).json({ message: "Unauthorized Access" })
         }
+        console.log(note)
 
         return res.status(200).json(note);
 
