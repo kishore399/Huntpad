@@ -31,7 +31,6 @@ export const useAuthStore = create((set, get) => ({
             const email = get().user?.email
             const res = await axios.post(`${Auth_URL}/verifyEmail`, {code, email, from});
             set({user: res.data.userInfo, isVerified: true, isLoading: false});
-            console.log(get().user)
         } catch (err) {
             set({ error: err.response?.data?.message || "Error verifying OTP", isLoading: false })
             throw err;
@@ -55,7 +54,6 @@ export const useAuthStore = create((set, get) => ({
             const res = await axios.get(`${Auth_URL}/validate`);
             set({ user: res.data.userInfo, isAuthenticated: true, isCheckingAuth: false});
         } catch (err) {
-            console.log(err);
             set({ error: null, isCheckingAuth: false});
         }
     },
@@ -65,8 +63,6 @@ export const useAuthStore = create((set, get) => ({
         try {
             const res = await axios.post(`${Auth_URL}/forgotPassword`,{ email });
             set({ user : res.data.userInfo, isLoading: false });
-            console.log(res.data)
-            console.log(get().user)
         } catch (err) {
             set({ error: err.response?.data?.message || "Error reseting password", isLoading: false })
             throw err;
@@ -77,10 +73,8 @@ export const useAuthStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try{
             const email = get().user?.email
-            console.log(password)
             const res = await axios.post(`${Auth_URL}/resetPassword`, {password, email});
             set({user: res.data.userInfo, isLoading: false});
-            console.log(get().user)
         } catch (err) {
             set({ error: err.response?.data?.message || "Error verifying OTP", isLoading: false })
             throw err;
@@ -90,7 +84,6 @@ export const useAuthStore = create((set, get) => ({
     updateProfilePic : async (profilePic) => {
         set({ isLoading: true, error: null });
         try {
-            console.log("Updating profile picture:", profilePic);
             set((s) => ({user: {...s.user, profilePic:profilePic}}));
             const res = await axios.put(`${Auth_URL}/profile`,{ profilePic });
             set({ isLoading: false});

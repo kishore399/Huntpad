@@ -11,7 +11,6 @@ const FilteredList = ({Notes, close}) => {
 
   const loadNote = async(id) => {
     await getContent(id);
-    console.log(id)
     navigate(`/home/notes/${id}`)
     close();
   }

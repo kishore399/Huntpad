@@ -18,8 +18,7 @@ export const listNotes = async (req,res) => {
 export const getNote = async (req,res) => {
     try {
         const userId = req.user._id;
-        const noteId = req.params.id
-        console.log("providing the content",noteId);
+        const noteId = req.params.id;
 
         const note = await Note.findById(noteId).select("content userId");
         if (!note) {
@@ -29,7 +28,6 @@ export const getNote = async (req,res) => {
         if(note.userId != userId) {
             return res.status(401).json({ message: "Unauthorized Access" })
         }
-        console.log(note)
 
         return res.status(200).json(note);
 
@@ -189,7 +187,6 @@ export const updateCoverPic = async (req,res) => {
     try {
         const { coverPic } = req.body;
         const id = req.params.id;
-        console.log("From Coverpic controller");
         if (!coverPic) {
             return res.status(400).json({ message : "No cover picture provided" });
         }
@@ -207,8 +204,7 @@ export const updateCoverPic = async (req,res) => {
 
         // Delete the old one
         if (note.cover) {
-            const isdeleted = await cloudinary.uploader.destroy(note.cover.split("/").pop().split(".")[0]);
-            console.log("Old profile pic deleted:", isdeleted);
+            await cloudinary.uploader.destroy(note.cover.split("/").pop().split(".")[0]);
         }
         note.cover = cloud.secure_url;
         await note.save();

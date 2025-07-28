@@ -31,8 +31,6 @@ const PreviewNote = ({pid}) => {
     [pid] 
   );
 
-  console.log("after block",preview?.content)
-
   return (
     <div className="p-4 xl:mx-7 mt-5">
       <div className="text-6xl text-gray-800 leading-tight dark:text-white font-bold box-border outline-none overflow-visible resize-y px-7 py-5 w-full h-full t">{preview?.title}</div>
@@ -61,7 +59,6 @@ const Preview = () => {
             await getPreview(pid);
         };
         fetchPreview();
-        console.log("preview", preview)
     },[pid]);
 
     useEffect(() => {
@@ -80,7 +77,7 @@ const Preview = () => {
       <div className="flex flex-col overflow-y-auto h-full t">
         <main className="flex-1 bg-neutral-100  min-h-screen dark:bg-slate-800 dark:text-slate-100 box-border overflow-auto w-screen t">
           <Navbar />
-          <div className="h-44 md:h-52 md:mb-3 lg:h-60 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${preview?.cover || "/BackgroundVioletScenery.jpg"})`}} />
+          <div className="h-44 md:h-56 md:mb-3 lg:h-64 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${preview?.cover || "/BackgroundVioletScenery.jpg"})`}} />
           <div className="h-full w-full">
             <PreviewNote pid={pid}/>
           </div>

@@ -28,8 +28,7 @@ app.use("/api/notes", notesRouter);
 
 const startServer = async () => {
     try {
-        const connect = await mongoose.connect(process.env.MONGO_URI);
-        console.log(`Connected to MongoDB ${connect.connection.host}`);
+        await mongoose.connect(process.env.MONGO_URI);
         app.listen(port, () => {
             console.log(`Server is running on PORT ${port}`);
         });

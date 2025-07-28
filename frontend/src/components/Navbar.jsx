@@ -39,7 +39,6 @@ const Navbar = () => {
     const handleResize = () => {
       if (window.innerWidth < 640 && !isCollapsed && showDropdown) {
         setShowDropdown(false)
-        console.log("Resizing to smaller screen, hiding dropdown",isCollapsed);
       }
     }
 
@@ -55,11 +54,9 @@ const Navbar = () => {
  
   const handlePublish = async () => {
     if (!selectedNotesId) {
-      console.log("No note selected for publishing");
       return;
     }
     await publishNote(selectedNotesId);
-    console.log("Note published successfully");
   }
 
   return (

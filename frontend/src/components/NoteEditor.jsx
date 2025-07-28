@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import {
   useCreateBlockNote,
@@ -9,6 +9,7 @@ import { filterSuggestionItems } from "@blocknote/core";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
+import {deepEqual} from "fast-equals";
 import { useAppStore } from "../store/appStore";
 import toast from "react-hot-toast";
 
@@ -39,19 +40,17 @@ const NoteEditor = ({ blocks, noteId }) => {
 
   const isDark = useAppStore((s) => s.isDark);
   const updateContent = useAppStore((s) => s.updateContent);
-  const selectedContent = useAppStore((s) => s.selectedContent);
   
   const editor = useCreateBlockNote({
-      initialContent: blocks
+    initialContent: blocks
   });
   
-  console.log("NoteEditor initialized with blocks:");
+  const lastSavedRef = useRef(editor.document);
   
   useHotkeys("ctrl+s, meta+s",async () => {
     const content = editor.document;
     await updateContent(content);
     toast.success("Content saved successfully");
-    console.log("Content saved:", content);
     },
     {
       enableOnFormTags: true,
@@ -62,16 +61,34 @@ const NoteEditor = ({ blocks, noteId }) => {
   );
 
   useEffect(() => {
-    console.log("editor changed editor changed editor changed");
-  },[editor]);
+    const handler = async () => {
+      await updateContent(editor.document);
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [editor]);
 
   useEffect(() => {
-    console.log("selectedContent changed selectedContent changed");
-  },[selectedContent]);
+    let isSaving = false;
+
+    const interval = setInterval(async () => {
+      if (isSaving) return;
+      if (!deepEqual(editor.document, lastSavedRef.current)) {
+        isSaving = true;
+        try {
+          await updateContent(editor.document);
+          lastSavedRef.current = editor.document;
+        } finally {
+          isSaving = false;
+        }
+      }
+    }, 5000);         //auto-save evry 5sec if changes occur
+
+    return () => clearInterval(interval);
+  }, [editor]);
 
   const handleBlur = async () => {
-    console.log("Updating Content On blur")
-    await updateContent(editor.document)
+    await updateContent(editor.document);
   };
 
   return (

@@ -1,5 +1,4 @@
-import {useEffect, useState} from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+import {useEffect} from "react";
 import { Navigate, Routes, Route } from "react-router";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";

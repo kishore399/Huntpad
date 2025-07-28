@@ -35,8 +35,7 @@ export const signup = async (req,res) => {
         
         const firstName = name.split(" ")[0];
         const htmlContent = signupOtpMail(firstName, otp);
-        const resendResponse = sendEmail(email, "Welcome! Here's your OTP to get started", htmlContent);
-        console.log(resendResponse)
+        sendEmail(email, "Welcome! Here's your OTP to get started", htmlContent);
 
         console.log(`OTP for ${email} is ${otp}`); 
 
@@ -98,8 +97,7 @@ export const login = async (req,res) => {
 
         const firstName = user.name.split(" ")[0];
         const htmlContent = welcomeBackMail(firstName)
-        const resendResponse = sendEmail(email, "Glad to see you again", htmlContent);
-        console.log(resendResponse)
+        sendEmail(email, "Glad to see you again", htmlContent);
 
         const userInfo = {
             _id: user._id,
@@ -135,7 +133,6 @@ export const logout = (req,res) => {
 export const updateProfile = async (req,res) => {
     try {
         const { profilePic } = req.body;
-        console.log("profilePic:", profilePic);
         if (!profilePic) {
             return res.status(400).json({ message : "No profile picture provided" });
         }
@@ -153,8 +150,7 @@ export const updateProfile = async (req,res) => {
 
         // Delete the old one
         if (user.profilePic) {
-            const isdeleted = await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
-            console.log("Old profile pic deleted:", isdeleted);
+            await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
         }
         user.profilePic = cloud.secure_url;
         await user.save();
@@ -208,7 +204,6 @@ export const verifyEmail = async (req,res) => {
         }
         user.isVerified = true;
         user.otp = undefined;
-        console.log(from,user.otp)
         user.otpExpiresAt = undefined;
         await user.save();
         if (from === "signup") {
@@ -216,8 +211,7 @@ export const verifyEmail = async (req,res) => {
 
             const firstName = user.name.split(" ")[0];
             const htmlContent = welcomeMail(firstName)
-            const resendResponse = sendEmail(email, "You're all set - Let's get started", htmlContent);
-            console.log(resendResponse)
+            sendEmail(email, "You're all set - Let's get started", htmlContent);
         }
 
 
@@ -252,8 +246,7 @@ export const forgotPassword = async (req,res) => {
       
         const firstName = user.name.split(" ")[0];
         const htmlContent = resetPasswordMail(firstName,otp)
-        const resendResponse = sendEmail(email, "Here's your password reset otp", htmlContent);
-        console.log(resendResponse)
+        sendEmail(email, "Here's your password reset otp", htmlContent);
 
         // send OTP to user's email (this part is not implemented in this code snippet)
         console.log(`OTP for ${email} is ${otp}`);
@@ -276,7 +269,6 @@ export const resetPassword = async (req,res) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
-        console.log(user.otp)
         if (!user.isVerified) {
             return res.status(401).json({ message: "unAuthorized access" });
         }

@@ -29,13 +29,10 @@ export const useAppStore = create((set,get) => ({
         set({ selectedContent: content });
         const noteId = get().selectedNotesId;
         if (!noteId) {
-            console.log("No note ID provided for updateContent");
             return;
         }
-        console.log("Updating content for note ID:", noteId);
         try {
             const res = await axios.put(`${Notes_URL}/${noteId}`, { content });
-            console.log("updated data",res.data);     
         } catch (err) {
             set({ error: err.response?.data?.message || "Error updating notes", isLoading: false });           
         }
@@ -45,7 +42,6 @@ export const useAppStore = create((set,get) => ({
         set((s) => ({notes: s.notes.map((note) => (
             (note._id === s.selectedNotesId) ? {...note , title: newTitle} : note
         ))}))
-        console.log("Title updated to: ", newTitle);
     },
 
     saveTitle: async (id, title) => {
@@ -53,7 +49,6 @@ export const useAppStore = create((set,get) => ({
         try {
             const res = await axios.put(`${Notes_URL}/title/${id}`, { title });
             set({ isLoading: false });
-            console.log("Title saved successfully:", res.data);
         } catch (err) {
             set({ error: err.response?.data?.message || "Error saving title", isLoading: false });
         }
@@ -61,13 +56,10 @@ export const useAppStore = create((set,get) => ({
 
     getNotes : async () => {
         set({ isGettingNotes: true })
-        console.log("fetching notes")
         try {
             const res = await axios.get(Notes_URL);
-            set({ isGettingNotes: false, notes: res.data });  
-            console.log(res.data,"at last");     
+            set({ isGettingNotes: false, notes: res.data });     
         } catch (err) {
-            console.log(err.response?.data?.message || "error")
             set({ error: err.response?.data?.message || "Error fetching Notes metadata", isGettingNotes: false });
         }
     },
@@ -75,9 +67,7 @@ export const useAppStore = create((set,get) => ({
     getContent : async (id) => {
         set({ isLoading: true })
         try {
-            console.log("")
             const res = await axios.get(`${Notes_URL}/${id}`);
-            console.log("Content fetched successfully:", res.data?.content);
             set((s) => ({ isLoading: false, selectedContent: res.data?.content || s.selectedContent }));      
         } catch (err) {
             set({ error: err.response?.data?.message || "Error fetching Note's content", isLoading: false });
@@ -89,8 +79,7 @@ export const useAppStore = create((set,get) => ({
             const { notes, defaultEmptyNote } = get();
             const res = await axios.post(Notes_URL, defaultEmptyNote);
             set({ notes : [...notes, res.data], selectedNotesId: res.data._id, selectedContent: res.data.content });
-            Navigate?.(res.data._id);
-            console.log(res.data);     
+            Navigate?.(res.data._id);    
         } catch (err) {
             set({ error: err.response?.data?.message || "Error creating notes", isLoading: false });
         }
@@ -101,7 +90,6 @@ export const useAppStore = create((set,get) => ({
         try {
             const res = await axios.delete(`${Notes_URL}/${id}`);
             set((s) => ({ notes: s.notes.filter((note) => note._id !== id), isLoading: false }));
-            console.log("deleted", res.data);
         } catch (err) {
             set({ error: err.response?.data?.message || "Error deleting note", isLoading: false });
         }
@@ -112,7 +100,6 @@ export const useAppStore = create((set,get) => ({
         try {
             const res = await axios.put(`${Notes_URL}/pin/${id}`);
             set({ isLoading: false, notes: res.data });
-            console.log("Pin",res.data);
         } catch (err) {
             set({ error: err.response?.data?.message || "Error pinning note", isLoading: false });
         }
@@ -128,7 +115,6 @@ export const useAppStore = create((set,get) => ({
                 ),
                 isLoading: false
             }));
-            console.log("Note published successfully:", res.data);
         } catch (err) {
             set({ error: err.response?.data?.message || "Error publishing note", isLoading: false });
         }
@@ -139,7 +125,6 @@ export const useAppStore = create((set,get) => ({
         try {
             const res = await axios.get(`${Notes_URL}/preview/${id}`);
             set({ isLoading: false, preview: res.data });
-            console.log("Preview fetched successfully:", res.data);
         } catch (err) {
             set({ error: err.response?.data?.message || "Error fetching preview", isLoading: false });
         }
@@ -148,7 +133,6 @@ export const useAppStore = create((set,get) => ({
     updateCoverPic : async (id, coverPic) => {
         set({ isLoading: true, error: null });
         try {
-            console.log("Updating cover picture:", coverPic);
             set((s) => ({ 
                 notes: s.notes.map((note) => 
                     note._id === id ? { ...note, cover: coverPic } : note
@@ -157,7 +141,6 @@ export const useAppStore = create((set,get) => ({
             }));
             const res = await axios.put(`${Notes_URL}/cover/${id}`,{ coverPic });
             set({ isLoading: false });
-            console.log("Cover picture updated successfully:");
         } catch(err) {
             set({ error: err.response?.data?.message || "Error updating Profil Picture", isLoading: false })
         }

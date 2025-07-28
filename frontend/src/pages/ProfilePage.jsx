@@ -24,12 +24,10 @@ const ProfilePage = ({close}) => {
   }
 
   const handleProfilePicClick = () => {
-    console.log("Profile picture clicked");
     inputRef.current.click();
   }
 
   const handleProfilePicChange = async (e) => {
-    console.log("Profile picture changed:");
     const file = e.target.files[0];
     if (file) {
       if (file.size > 4 * 1024 * 1024) {
@@ -40,8 +38,6 @@ const ProfilePage = ({close}) => {
       reader.readAsDataURL(file);
 
       reader.onloadend = async () => {
-        const base64img = reader.result;
-        console.log("Base64 Image:", base64img);
         await updateProfilePic(reader.result);
       };
     }

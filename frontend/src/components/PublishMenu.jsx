@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 import { Globe, Copy } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -6,7 +6,6 @@ const PublishMenu = ({note, handlePublish}) => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(`http://localhost:5173/preview/${note._id}`);
-    console.log("Link copied to clipboard");
     toast.success("Link copied to clipboard");
   }
 

@@ -1,5 +1,5 @@
 import { useAppStore } from "../store/appStore";
-import { LucideSoapDispenserDroplet, Pin, PinOff, Trash2 } from "lucide-react";
+import { Pin, PinOff, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router";
 
 const NotesList = () => {
@@ -17,9 +17,7 @@ const NotesList = () => {
 
   const handlePin = async(id,e) => {
     e.stopPropagation();
-    console.log("from pin", id);
     await pinNote(id);
-    console.log("Pin");
   }
 
   const handleDelete  = async(id,e) => {
@@ -28,12 +26,10 @@ const NotesList = () => {
     if (id === selectedNotesId) {
       navigate("/home");
     }
-    console.log(id);
   }
 
   const loadNote = async(id) => {
     await getContent(id);
-    console.log(id)
     navigate(`/home/notes/${id}`)
     if (window.innerWidth < 640) {
       setIsCollapsed(true);
