@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../lib/util.js";
 import cloudinary from "../lib/cloudinary.js";
 import crypto from "crypto";
-import { sendEmail } from "../lib/resend.js";
+import { sendEmail } from "../lib/nodeMailer.js";
 import { signupOtpMail } from "../mailTemplate/signupOtp.js";
 import { resetPasswordMail } from "../mailTemplate/resetPasswordOtp.js";
 import { welcomeMail } from "../mailTemplate/WelcomeMail.js";
