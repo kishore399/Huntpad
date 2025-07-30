@@ -66,11 +66,16 @@ export const createNote = async (req,res) => {
 export const updateNote = async (req,res) => {
     try {
         const noteId = req.params.id;
+        const userId = req.user._id;
         const { content } = req.body || "";
 
         const note = await Note.findById(noteId);
         if (!note) {
             return res.status(404).json({ message : "Note not found"})
+        }
+
+        if(note.userId != userId) {
+            return res.status(401).json({ message: "Unauthorized Access" })
         }
 
         note.content = content;
@@ -87,11 +92,16 @@ export const updateNote = async (req,res) => {
 export const updateTitle = async (req,res) => {
     try {
         const noteId = req.params.id;
+        const userId = req.user._id;
         const { title } = req.body;
 
         const note = await Note.findById(noteId);
         if (!note) {
             return res.status(404).json({ message : "Note not found" });
+        }
+
+        if(note.userId != userId) {
+            return res.status(401).json({ message: "Unauthorized Access" })
         }
 
         note.title = title;
@@ -107,10 +117,15 @@ export const updateTitle = async (req,res) => {
 export const deleteNote = async (req,res) => {
     try {
         const noteId = req.params.id;
+        const userId = req.user._id;
 
         const note = await Note.findById(noteId);
         if (!note) {
             return res.status(404).json({ message : "Note not found" });
+        }
+
+        if(note.userId != userId) {
+            return res.status(401).json({ message: "Unauthorized Access" })
         }
 
         await note.deleteOne();
@@ -132,6 +147,10 @@ export const pinNote = async (req,res) => {
             return res.status(404).json({ message : "Note not found"})
         }
 
+        if(note.userId != userId) {
+            return res.status(401).json({ message: "Unauthorized Access" })
+        }
+
         note.isPinned = !note.isPinned;
 
         await note.save();
@@ -148,10 +167,16 @@ export const pinNote = async (req,res) => {
 export const publishNote = async (req, res) => {
     try {
         const noteId = req.params.id;
+        const userId = req.user._id;
         const note = await Note.findById(noteId);
         if (!note) {
             return res.status(404).json({ message: "Note not found" });
         }
+
+        if(note.userId != userId) {
+            return res.status(401).json({ message: "Unauthorized Access" })
+        }
+
         note.isPublished = !note.isPublished;
         await note.save();
         return res.status(200).json("Published");
@@ -186,6 +211,7 @@ export const getPreview = async (req, res) => {
 export const updateCoverPic = async (req,res) => {
     try {
         const { coverPic } = req.body;
+        const userId = req.user._id;
         const id = req.params.id;
         if (!coverPic) {
             return res.status(400).json({ message : "No cover picture provided" });
@@ -200,6 +226,10 @@ export const updateCoverPic = async (req,res) => {
         const note = await Note.findById(id);
         if (!note) {
             return res.status(404).json({ message : "Note not found"})
+        }
+
+        if(note.userId != userId) {
+            return res.status(401).json({ message: "Unauthorized Access" })
         }
 
         // Delete the old one

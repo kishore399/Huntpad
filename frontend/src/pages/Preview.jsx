@@ -75,7 +75,7 @@ const Preview = () => {
   return (
     <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-100 dark:bg-zinc-900 t">
       <div className="flex flex-col overflow-y-auto h-full t">
-        <main className="flex-1 bg-neutral-100  min-h-screen dark:bg-slate-800 dark:text-slate-100 box-border overflow-auto w-screen t">
+        <main className="flex-1 bg-stone-50  min-h-screen dark:bg-slate-800 dark:text-slate-100 box-border overflow-auto w-screen t">
           <Navbar />
           <div className="h-44 md:h-56 md:mb-3 lg:h-64 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${preview?.cover || "/BackgroundVioletScenery.jpg"})`}} />
           <div className="h-full w-full">
