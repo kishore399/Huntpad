@@ -1,0 +1,21 @@
+{
+  "name": "huntpad",
+  "version": "1.0.0",
+  "description": "🚀 Notepad with advanced features",
+  "main": "server.js",
+  "scripts": {
+    "build": "npm install --prefix frontend && npm install --prefix backend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kishore399/Huntpad.git"
+  },
+  "keywords": [],
+  "author": "Kishore Kumar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kishore399/Huntpad/issues"
+  },
+  "homepage": "https://github.com/kishore399/Huntpad#readme"
+}
