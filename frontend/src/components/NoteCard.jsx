@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import Navbar from "./Navbar";
 import { useAppStore } from "../store/appStore";
+import toast from "react-hot-toast";
 
 const NoteCard = ({ children }) => {
 
@@ -29,7 +30,7 @@ const NoteCard = ({ children }) => {
     const file = e.target.files[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        toast.error("File size exceeds 2MB limit");
+        toast.error("File size exceeds 5MB limit");
         return;
       }
       const reader = new FileReader();
@@ -44,7 +45,7 @@ const NoteCard = ({ children }) => {
   return (
     <main className="flex-1 bg-stone-50 min-h-screen dark:bg-slate-800 dark:text-slate-100 box-border overflow-auto w-screen t">
       <Navbar />
-      <div className="group relative h-44 md:h-52 md:mb-3 lg:h-60 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${note?.cover || "/BackgroundVioletScenery.jpg"})`}}>
+      <div className="group relative h-44 md:h-52 md:mb-3 lg:h-60 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${note?.cover || "/defaultCover.jpeg"})`}}>
       { id &&
         <button 
           onClick={handleClick} 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "../components/Input";
 import { User, Mail, Lock, Loader } from "lucide-react";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
@@ -19,6 +19,10 @@ const Signup = () => {
   const signup = useAuthStore((s) => s.signup);
   const isLoading = useAuthStore((s) => s.isLoading);
   const setError = useAuthStore((s) => s.setError);
+
+  useEffect(() => {
+    setError(null);
+  },[])
 
   const handleSignup = async (e) => {
     e.preventDefault();

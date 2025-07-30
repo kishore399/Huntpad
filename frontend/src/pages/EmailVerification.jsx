@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import SubmitButton from "../components/SubmitButton";
 import { Loader } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
@@ -12,10 +12,14 @@ const EmailVerification = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
-    const error = useAuthStore((s) => s.error);
-    const verifyEmail = useAuthStore((s) => s.verifyEmail);
-    const isLoading = useAuthStore((s) => s.isLoading);
-    const setError = useAuthStore((s) => s.setError);
+  const error = useAuthStore((s) => s.error);
+  const verifyEmail = useAuthStore((s) => s.verifyEmail);
+  const isLoading = useAuthStore((s) => s.isLoading);
+  const setError = useAuthStore((s) => s.setError);
+
+  useEffect(() => {
+    setError(null);
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

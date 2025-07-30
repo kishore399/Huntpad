@@ -1,12 +1,11 @@
 import Input from "../components/Input";
 import { Lock, ArrowLeft, Loader } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SubmitButton from "../components/SubmitButton";
 import { Link, useNavigate } from "react-router";
 import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
 import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
-
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -17,6 +16,10 @@ const ResetPassword = () => {
   const resetPassword = useAuthStore((s) => s.resetPassword);
   const isLoading = useAuthStore((s) => s.isLoading);
   const setError = useAuthStore((s) => s.setError);
+
+  useEffect(() => {
+    setError(null);
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

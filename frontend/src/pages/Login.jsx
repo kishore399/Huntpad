@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "../components/Input";
 import { Mail, Lock, Loader } from "lucide-react";
 import { Link, useNavigate } from "react-router";
@@ -14,6 +14,11 @@ const Login = () => {
   const error = useAuthStore((s) => s.error);
   const login = useAuthStore((s) => s.login);
   const isLoading = useAuthStore((s) => s.isLoading);
+  const setError = useAuthStore((s) => s.setError);
+
+  useEffect(() => {
+    setError(null);
+  },[])
 
   const handleLogin = async (e) => {
     e.preventDefault();
