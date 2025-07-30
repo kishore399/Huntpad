@@ -31,7 +31,7 @@ const NotesList = () => {
   const loadNote = async(id) => {
     await getContent(id);
     navigate(`/home/notes/${id}`)
-    if (window.innerWidth < 640) {
+    if (isTouchScreen) {
       setIsCollapsed(true);
     }
   }
