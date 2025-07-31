@@ -5,7 +5,9 @@ import toast from "react-hot-toast";
 const PublishMenu = ({note, handlePublish}) => {
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`http://localhost:5173/preview/${note._id}`);
+    const url = import.meta.env.MODE === "development" ? `http://localhost:5173/preview/${note._id}` : `https://huntpad.onrender.com/preview/${note._id}`;
+
+    navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard");
   }
 
