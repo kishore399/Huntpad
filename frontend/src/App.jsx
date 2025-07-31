@@ -54,11 +54,13 @@ const App = () => {
   useEffect(() => {
     checkAuth();
     const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
+
+    if (theme === "light") {
+      document.documentElement.classList.remove("dark");
+      setIsDark(false);
+    } else {
       document.documentElement.classList.add("dark");
       setIsDark(true);
-    } else {
-      setIsDark(false);
     }
   },[])
 
