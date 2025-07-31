@@ -35,9 +35,7 @@ export const signup = async (req,res) => {
         
         const firstName = name.split(" ")[0];
         const htmlContent = signupOtpMail(firstName, otp);
-        sendEmail(email, "Welcome! Here's your OTP to get started", htmlContent);
-
-        console.log(`OTP for ${email} is ${otp}`); 
+        sendEmail(email, "Welcome! Here's your OTP to get started", htmlContent); 
 
         const newUser = new User ({
             name : name,
@@ -247,9 +245,6 @@ export const forgotPassword = async (req,res) => {
         const firstName = user.name.split(" ")[0];
         const htmlContent = resetPasswordMail(firstName,otp)
         sendEmail(email, "Here's your password reset otp", htmlContent);
-
-        // send OTP to user's email (this part is not implemented in this code snippet)
-        console.log(`OTP for ${email} is ${otp}`);
 
         return res.status(200).json({ userInfo : { email : email } });
 
