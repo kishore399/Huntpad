@@ -5,7 +5,7 @@ const Notes_URL = import.meta.env.MODE === "development" ? "http://localhost:500
 axios.defaults.withCredentials = true;
 
 export const useAppStore = create((set,get) => ({
-    isDark: false,
+    isDark: true,
     setIsDark: (theme) => set({isDark: theme}),
     isCollapsed: false,
     setIsCollapsed: () => set((s) => ({isCollapsed : !s.isCollapsed})),

@@ -21,9 +21,9 @@ const Navbar = () => {
   const currNote = notes.find((note) => note._id === selectedNotesId) || {title: "Welcome to HuntPad", isPublished: false};
  
   const toggleTheme = () => {
-  const isDarkNow = document.documentElement.classList.toggle("dark");
-  localStorage.setItem("theme", isDarkNow ? "dark" : "light");
-  setIsDark(isDarkNow);
+    const isDarkNow = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDarkNow ? "dark" : "light");
+    setIsDark(isDarkNow);
   }
 
   useEffect(() => {

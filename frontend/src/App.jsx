@@ -57,6 +57,8 @@ const App = () => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
       setIsDark(true);
+    } else {
+      setIsDark(false);
     }
   },[])
 
