@@ -5,11 +5,12 @@ import toast from "react-hot-toast";
 const PublishMenu = ({note, handlePublish}) => {
 
   const handleCopy = () => {
-    const url = import.meta.env.MODE === "development" ? `http://localhost:5173/preview/${note._id}` : `https://huntpad.onrender.com/preview/${note._id}`;
-
+    
     navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard");
   }
+
+  const url = import.meta.env.MODE === "development" ? `http://localhost:5173/preview/${note._id}` : `https://huntpad.onrender.com/preview/${note._id}`;
 
   return (
     <div className="absolute top-full bg-slate-100/70 dark:bg-slate-700/70 z-10 rounded-lg m-3 px-2 py-1">
@@ -20,7 +21,7 @@ const PublishMenu = ({note, handlePublish}) => {
             <p className="text-sm font-bold">The note is live</p>
           </div>
           <div className="flex items-center justify-center">
-            <div className="text-md h-7 bg-slate-300 dark:bg-slate-700/80 dark:text-slate-300 pl-2 rounded-l-lg w-56 truncate">http://localhost:5173/preview/{note._id}</div>
+            <div className="text-md h-7 bg-slate-300 dark:bg-slate-700/80 dark:text-slate-300 pl-2 rounded-l-lg w-56 truncate">{url}</div>
             <div className="bg-slate-700 dark:bg-slate-800 p-1 px-2 rounded-r-lg">
               <Copy onClick={handleCopy} className="size-5 text-white" />
             </div>
