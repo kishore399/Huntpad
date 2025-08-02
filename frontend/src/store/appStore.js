@@ -7,8 +7,11 @@ axios.defaults.withCredentials = true;
 export const useAppStore = create((set,get) => ({
     isDark: true,
     setIsDark: (theme) => set({isDark: theme}),
-    isCollapsed: false,
-    setIsCollapsed: () => set((s) => ({isCollapsed : !s.isCollapsed})),
+    isCollapsed: true,
+    setIsCollapsed: () => set((s) => {
+        console.log("sidebar changed")
+        return {isCollapsed : !s.isCollapsed}
+    }),
     isLoading: false,
     isGettingNotes: true,
     error: null,

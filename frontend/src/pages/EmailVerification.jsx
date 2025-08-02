@@ -79,7 +79,7 @@ const EmailVerification = () => {
         </h2>
         <p className="text-center text-sm text-slate-600 font-semibold mt-8 mb-4">Enter the 6-digit code sent to your email address</p>
         <form onSubmit={ handleSubmit } className="w-full flex flex-col gap-2 mt-4 px-8">
-          <div className="flex justify-center items-center gap-3 mb-4">
+          <div className="flex justify-center items-center gap-2 mb-4">
             {otp.map((num,index) => (
               <input 
                 key={index}

@@ -22,6 +22,10 @@ const Home = () => {
   const { id } = useParams();
 
   useEffect(() => {
+    if (window.innerWidth >= 640) {
+      setIsCollapsed();
+    }
+
     const fetchNotes = async () => {
       await getNotes();
     }
@@ -67,7 +71,7 @@ const Home = () => {
   );
 
   useHotkeys("ctrl+b, meta+b", () => {
-    setIsCollapsed(prev => !prev);
+    setIsCollapsed();
     },
     {
       enableOnFormTags: true,
