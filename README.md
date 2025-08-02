@@ -1,19 +1,56 @@
-# SecureNotes — MERN Stack Notepad App
+# 📝 HuntPad — Notion-Inspired MERN Notepad App
 
-🚀 CodePad Notes – A secure, autosaving notepad built with the MERN stack.
+**HuntPad** is a Notion-style, block-based note-taking application built with the **MERN stack**, designed for speed, polish, and production-level experience.
 
-This intermediate project is part of my larger journey to build a full-fledged real-time collaborative coding platform.
+It serves as the perfect foundation for understanding full-stack architecture, editor internals, and UX engineering.
 
-🔐 Features:
+---
 
-User authentication with password protection
+## 🚀 Features
 
-Real-time autosave functionality
+- 🔐 **JWT Authentication** — Login, signup, email verification, forgot/reset password, and resend verification
+- 📄 **Block-Based Editor** — Slash (`/`) command support using BlockNote
+- ☁️ **Autosave** — Instant real-time save of title and content (no manual save button)
+- 🎨 **Theme Support** — Light/dark mode with smooth 300ms transitions
+- 📁 **Note Metadata** — Metadata and content load separately for performance
+- 🖼️ **Custom Cover Images** — Notion-style header image support
+- 🔗 **Public Read-Only Sharing** — Generate a public link for any note
+- 🧭 **Collapsible Sidebar** — Searchable, minimal sidebar with smooth UX
+- 🧑‍💼 **Profile System** — Editable profile with picture upload
+- ⌨️ **Keyboard Shortcuts**
+  - `Ctrl + K` – Search notes
+  - `Ctrl + S` – Trigger manual save
+  - `Ctrl + P` – Open profile
+  - `Ctrl + B` – Toggle sidebar
 
-Notes stored securely in MongoDB Atlas
+---
 
-Clean, responsive UI built with React
+## 🛠️ Tech Stack
 
-💡 Tech Stack: React, Express.js, MongoDB Atlas, Node.js, Mongoose
+- **Frontend:** React, TailwindCSS, BlockNote
+- **Backend:** Express.js, Node.js
+- **Database:** MongoDB Atlas (via Mongoose)
+- **Auth:** JWT, bcrypt, email verification with Nodemailer
 
-🧪 This project helped me strengthen full-stack concepts like form validation, protected routes, backend-to-frontend data flow, and database integration.
+---
+
+## 💡 What I Learned
+
+This project taught me:
+
+- End-to-end secure auth systems (tokens, email flows)
+- Handling large-scale note systems with efficient state management
+- Real-time autosave design
+- Professional frontend UX using advanced Tailwind and React patterns
+- Notion-style editor logic using blocks, slash commands, and metadata separation
+
+---
+
+## ✨ Try It Out
+
+🔗 **Live Demo:** [huntpad.onrender.com/home](https://huntpad.onrender.com/home)
+
+> ⚠️ Hosted on Render’s free tier – cold starts may take up to **50 seconds** if the app has been idle.
+
+
+---
