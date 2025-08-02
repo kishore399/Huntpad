@@ -9,7 +9,7 @@ export const generateToken = (userid, email, res) => {
     const key = process.env.JWT_SECRET
     const token = jwt.sign( payload, key, { expiresIn: "0d"});
     res.cookie("jwt", token, {
-        maxAge : 30 * 24 * 60 * 60 * 1000,                 // 30 days in ms
+        maxAge : 7 * 24 * 60 * 60 * 1000,                 // 30 days in ms
         httpOnly : true,                                   // XSS attacks
         sameSite : "strict",                               // CSRF attacks
         secure : process.env.NODE_ENV === "production"     //only over HTTPS
