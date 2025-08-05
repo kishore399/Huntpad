@@ -28,6 +28,11 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/notes", notesRouter);
 
+// Endpoint for uptime monitering
+app.get("/healthz", (req,res) => {
+    res.status(200).send("OK")
+});
+
 if (process.env.NODE_ENV === "production"){
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
 
