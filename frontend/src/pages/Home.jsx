@@ -12,7 +12,6 @@ const Home = () => {
 
   const [showProfile, setShowProfile] = useState(false);
   const [showSearchbar, setShowSearchbar] = useState(false);
-  const isCollapsed = useAppStore((s) => s.isCollapsed);
   const setIsCollapsed = useAppStore((s) => s.setIsCollapsed);
   const getNotes = useAppStore((s) => s.getNotes);
   const notes = useAppStore((s) => s.notes);
@@ -83,7 +82,7 @@ const Home = () => {
   return (
     <div className="relative w-screen min-h-screen overflow-y-auto bg-stone-100 dark:bg-zinc-900 t">
       <div className="flex flex-col overflow-y-auto t">
-        <div className={`flex t ${isCollapsed ? "pl-48":"pl-0"}`}>
+        <div className={`flex t`}>
           <Sidebar 
             handleProfileClick={() => setShowProfile(prev => !prev)}
             handleSearch={() => setShowSearchbar(prev => !prev)}
