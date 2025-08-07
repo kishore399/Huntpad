@@ -9,7 +9,6 @@ export const useAppStore = create((set,get) => ({
     setIsDark: (theme) => set({isDark: theme}),
     isCollapsed: true,
     setIsCollapsed: () => set((s) => {
-        console.log("sidebar changed")
         return {isCollapsed : !s.isCollapsed}
     }),
     isLoading: false,

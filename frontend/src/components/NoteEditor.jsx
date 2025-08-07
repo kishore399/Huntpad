@@ -6,6 +6,7 @@ import {
   SuggestionMenuController,
 } from "@blocknote/react";
 import { filterSuggestionItems } from "@blocknote/core";
+import { codeBlock } from "@blocknote/code-block";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/core/fonts/inter.css";
 import "@blocknote/mantine/style.css";
@@ -42,7 +43,8 @@ const NoteEditor = ({ blocks, noteId }) => {
   const updateContent = useAppStore((s) => s.updateContent);
   
   const editor = useCreateBlockNote({
-    initialContent: blocks
+    initialContent: blocks,
+    codeBlock
   });
   
   const lastSavedRef = useRef(editor.document);
@@ -93,7 +95,6 @@ const NoteEditor = ({ blocks, noteId }) => {
 
   return (
     <BlockNoteView
-      key={noteId || "default-editor"}
       editor={editor}
       theme={isDark ? "dark" : "light"}
       slashMenu={false}

@@ -24,7 +24,7 @@ const noteSchema = new mongoose.Schema(
         },
         cover : {
             type : String,
-            default : ""
+            default : "https://res.cloudinary.com/dkpjr18ky/image/upload/v1754560080/m9n3fjzvuvararyejivh.jpg"
         }
     }, 
     { 

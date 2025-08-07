@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import Navbar from '../components/Navbar';
 import { useAppStore } from '../store/appStore';
 import NotFound from './NotFound';
+import LoadingScreen from './LoadingScreen';
 import {
   useCreateBlockNote,
 } from "@blocknote/react";
@@ -50,6 +51,7 @@ const Preview = () => {
 
     const getPreview = useAppStore((s) => s.getPreview);
     const preview = useAppStore((s) => s.preview);
+    const isLoading = useAppStore((s) => s.isLoading);
     const [isValid, setIsValid] = useState(true);
 
     const { pid } = useParams();
@@ -69,6 +71,10 @@ const Preview = () => {
         }
     }, [preview]);
 
+  if (isLoading){
+    return <LoadingScreen />
+  }
+
   if (!isValid) {
     return <NotFound />;
   }
@@ -77,7 +83,7 @@ const Preview = () => {
       <div className="flex flex-col overflow-y-auto h-full t">
         <main className="flex-1 bg-stone-50  min-h-screen dark:bg-slate-800 dark:text-slate-100 box-border overflow-auto w-screen t">
           <Navbar />
-          <div className="h-44 md:h-56 md:mb-3 lg:h-64 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${preview?.cover || "/defaultCover.jpeg"})`}} />
+          <div className="h-44 md:h-56 md:mb-3 lg:h-64 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${preview?.cover})`}} />
           <div className="h-full w-full">
             <PreviewNote pid={pid}/>
           </div>
