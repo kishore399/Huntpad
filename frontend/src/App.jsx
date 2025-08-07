@@ -38,9 +38,6 @@ const RedirectVerifiedUser = ({ children }) => {
   if (isAuthenticated && user?.isVerified) {
     return <Navigate to="/home" replace />
   }
-  if (isAuthenticated) {
-    return <Navigate to="/verify-email" replace />
-  }
 
   return children;
 }
