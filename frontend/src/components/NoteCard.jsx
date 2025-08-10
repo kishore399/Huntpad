@@ -13,7 +13,7 @@ const NoteCard = ({ children }) => {
   const notes = useAppStore((s) => s.notes);
 
   const isTouchScreen = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
-  const defaultCover = "https://res.cloudinary.com/dkpjr18ky/image/upload/v1754560080/m9n3fjzvuvararyejivh.jpg";
+  const defaultCover = "https://res.cloudinary.com/dkpjr18ky/image/upload/v1754811358/Lofi_-_Chill_Room2_zzqmpi.jpg";
 
   const [note, setNote] = useState(null);
 
