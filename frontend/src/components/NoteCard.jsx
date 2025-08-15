@@ -13,8 +13,7 @@ const NoteCard = ({ children }) => {
   const notes = useAppStore((s) => s.notes);
 
   const isTouchScreen = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
-  const defaultCover = "https://res.cloudinary.com/dkpjr18ky/image/upload/v1754811358/Lofi_-_Chill_Room2_zzqmpi.jpg";
-
+  
   const [note, setNote] = useState(null);
 
   const handleClick = () => {
@@ -45,7 +44,7 @@ const NoteCard = ({ children }) => {
   return (
     <main className="flex-1 bg-stone-50 min-h-screen dark:bg-slate-800 dark:text-slate-100 box-border overflow-auto w-screen t">
       <Navbar />
-      <div className="group relative h-44 md:h-52 md:mb-3 lg:h-60 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${note?.cover || defaultCover})`}}>
+      <div className="group relative h-44 md:h-52 md:mb-3 lg:h-60 lg:mb-5 bg-cover bg-center bg-no-repeat rounded-lg" style={{backgroundImage: `url(${note?.cover || "/default-cover.jpeg"})`}}>
       { id &&
         <button 
           onClick={handleClick} 

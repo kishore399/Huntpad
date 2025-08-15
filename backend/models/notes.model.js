@@ -24,7 +24,7 @@ const noteSchema = new mongoose.Schema(
         },
         cover : {
             type : String,
-            default : "https://res.cloudinary.com/dkpjr18ky/image/upload/v1754811358/Lofi_-_Chill_Room2_zzqmpi.jpg"
+            default : ""
         }
     }, 
     { 
