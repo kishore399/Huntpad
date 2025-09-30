@@ -1,4 +1,4 @@
-# 📝 HuntPad — Notion-Inspired MERN Notepad App
+# HuntPad — Notion-Inspired MERN Notepad App
 
 **HuntPad** is a Notion-style, block-based note-taking application built with the **MERN stack**, designed for speed, polish, and production-level experience.
 
@@ -6,18 +6,18 @@ It serves as the perfect foundation for understanding full-stack architecture, e
 
 ---
 
-## 🚀 Features
+## Features
 
-- 🔐 **JWT Authentication** — Login, signup, email verification, forgot/reset password, and resend verification
-- 📄 **Block-Based Editor** — Slash (`/`) command support using BlockNote
-- ☁️ **Autosave** — Instant real-time save of title and content (no manual save button)
-- 🎨 **Theme Support** — Light/dark mode with smooth 300ms transitions
-- 📁 **Note Metadata** — Metadata and content load separately for performance
-- 🖼️ **Custom Cover Images** — Notion-style header image support
-- 🔗 **Public Read-Only Sharing** — Generate a public link for any note
-- 🧭 **Collapsible Sidebar** — Searchable, minimal sidebar with smooth UX
-- 🧑‍💼 **Profile System** — Editable profile with picture upload
-- ⌨️ **Keyboard Shortcuts**
+- **JWT Authentication** — Login, signup, email verification, forgot/reset password, and resend verification
+- **Block-Based Editor** — Slash (`/`) command support using BlockNote
+- **Autosave** — Instant real-time save of title and content (no manual save button)
+- **Theme Support** — Light/dark mode with smooth 300ms transitions
+- **Note Metadata** — Metadata and content load separately for performance
+- **Custom Cover Images** — Notion-style header image support
+- **Public Read-Only Sharing** — Generate a public link for any note
+- **Collapsible Sidebar** — Searchable, minimal sidebar with smooth UX
+- **Profile System** — Editable profile with picture upload
+- **Keyboard Shortcuts**
   - `Ctrl + K` – Search notes
   - `Ctrl + S` – Trigger manual save
   - `Ctrl + P` – Open profile
@@ -25,7 +25,7 @@ It serves as the perfect foundation for understanding full-stack architecture, e
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend:** React, TailwindCSS, BlockNote
 - **Backend:** Express.js, Node.js
@@ -34,7 +34,7 @@ It serves as the perfect foundation for understanding full-stack architecture, e
 
 ---
 
-## 💡 What I Learned
+## What I Learned
 
 This project taught me:
 
@@ -46,11 +46,10 @@ This project taught me:
 
 ---
 
-## ✨ Try It Out
+## Try It Out
 
 🔗 **Live Demo:** [huntpad.onrender.com/home](https://huntpad.onrender.com/home)
 
 > ⚠️ Hosted on Render’s free tier – cold starts may take up to **50 seconds** if the app has been idle.
-
 
 ---
